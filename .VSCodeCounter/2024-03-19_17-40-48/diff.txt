@@ -1,0 +1,72 @@
+Date : 2024-03-19 17:40:48
+Directory : c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders
+Total : 44 files,  -2861 codes, -197 comments, -322 blanks, all -3380 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| GLSL     |         16 |        369 |          0 |         83 |        452 |
+| C++      |         28 |     -3,230 |       -197 |       -405 |     -3,832 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                  | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                     |         44 |     -2,861 |       -197 |       -322 |     -3,380 |
+| . (Files)                                                                                             |         16 |        369 |          0 |         83 |        452 |
+| ..                                                                                                    |         28 |     -3,230 |       -197 |       -405 |     -3,832 |
+| ..\Scripts                                                                                            |         28 |     -3,230 |       -197 |       -405 |     -3,832 |
++-------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                              | language | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\AObjectDraw.cpp               | C++      |       -520 |       -111 |        -74 |       -705 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\AObjectDraw.h                 | C++      |        -64 |         -7 |        -12 |        -83 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\ApplicationMain.cpp           | C++      |       -235 |        -11 |        -32 |       -278 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\ApplicationMain.h             | C++      |        -20 |          0 |         -5 |        -25 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\Button.h                      | C++      |        -23 |          0 |         -5 |        -28 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\Camera.h                      | C++      |        -83 |          0 |         -3 |        -86 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\Constants.h                   | C++      |        -15 |         -3 |         -3 |        -21 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\DrawingPad.cpp                | C++      |        -83 |        -11 |         -9 |       -103 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\DrawingPad.h                  | C++      |        -25 |         -3 |         -6 |        -34 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\EngineBase.h                  | C++      |        -16 |          0 |         -1 |        -17 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\GUIText.cpp                   | C++      |       -243 |        -10 |        -50 |       -303 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\GUIText.h                     | C++      |        -56 |          0 |        -12 |        -68 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\GlStuff.h                     | C++      |        -11 |         -3 |         -2 |        -16 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\GlobalVars.h                  | C++      |        -32 |         -3 |         -1 |        -36 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\IntializeShaders.h            | C++      |       -218 |         -3 |        -21 |       -242 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\KeyPresses.cpp                | C++      |        -58 |         -3 |         -7 |        -68 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\KeyPresses.h                  | C++      |        -17 |         -3 |         -4 |        -24 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\LightingMain.cpp              | C++      |       -344 |        -15 |        -58 |       -417 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\LightingMain.h                | C++      |        -74 |          0 |        -16 |        -90 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\Line.h                        | C++      |       -105 |          0 |         -6 |       -111 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\List.h                        | C++      |       -152 |          0 |         -4 |       -156 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\MathFunctions.cpp             | C++      |        -44 |          0 |         -9 |        -53 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\MathFunctions.h               | C++      |        -15 |          0 |         -2 |        -17 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\Mouse.h                       | C++      |        -16 |          0 |         -4 |        -20 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\ObjectClasses.h               | C++      |       -215 |         -5 |        -17 |       -237 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\Raycasting.h                  | C++      |        -53 |          0 |        -19 |        -72 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\VAOCreate.h                   | C++      |       -310 |         -6 |        -11 |       -327 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\Vector.h                      | C++      |       -183 |          0 |        -12 |       -195 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\BasicFrag.frag                | GLSL     |         12 |          0 |          5 |         17 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\BasicVert.vert                | GLSL     |         16 |          0 |          4 |         20 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\NoTextureFrag.frag            | GLSL     |          8 |          0 |          3 |         11 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\NoTextureVert.vert            | GLSL     |         13 |          0 |          4 |         17 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\SMappingBasicFrag.frag        | GLSL     |         47 |          0 |         11 |         58 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\SMappingBasicVert.vert        | GLSL     |         21 |          0 |          5 |         26 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\SMappingDepthTextureFrag.frag | GLSL     |          4 |          0 |          2 |          6 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\SMappingDepthTextureVert.vert | GLSL     |          9 |          0 |          2 |         11 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\SMappingNoTextureFrag.frag    | GLSL     |         43 |          0 |         11 |         54 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\SMappingNoTextureVert.vert    | GLSL     |         18 |          0 |          5 |         23 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\SShadowingBasicFrag.frag      | GLSL     |         12 |          0 |          5 |         17 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\SShadowingBasicVert.vert      | GLSL     |         16 |          0 |          4 |         20 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\SShadowingNoTextureFrag.frag  | GLSL     |          8 |          0 |          3 |         11 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\SShadowingNoTextureGeom.geom  | GLSL     |         54 |          0 |          8 |         62 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\SShadowingNoTextureVert.vert  | GLSL     |         10 |          0 |          3 |         13 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\TestCompute.comp              | GLSL     |         78 |          0 |          8 |         86 |
+| Total                                                                                                 |          |     -2,861 |       -197 |       -322 |     -3,380 |
++-------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

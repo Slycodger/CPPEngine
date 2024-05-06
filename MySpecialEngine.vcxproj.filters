@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="glad\src\glad.c" />
+    <ClCompile Include="Scripts\MathFunctions.cpp">
+      <Filter>CPPFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\KeyPresses.cpp">
+      <Filter>CPPFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\ApplicationMain.cpp">
+      <Filter>CPPFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\AObjectDraw.cpp">
+      <Filter>CPPFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\DrawingPad.cpp">
+      <Filter>CPPFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\GUIText.cpp">
+      <Filter>CPPFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\ModelLoading.cpp">
+      <Filter>CPPFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\Constants.cpp" />
+    <ClCompile Include="Scripts\AnimationKeying.cpp">
+      <Filter>CPPFiles</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Scripts\ApplicationMain.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Camera.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Constants.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\DrawingPad.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\EngineBase.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\AObjectDraw.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\GlobalVars.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\GlStuff.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\IntializeShaders.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\KeyPresses.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\List.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\MathFunctions.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\ModelLoading.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\ObjectClasses.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Raycasting.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="ft2build.h" />
+    <ClInclude Include="Scripts\Vector.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\GUIText.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Button.h" />
+    <ClInclude Include="Scripts\Mouse.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\LightingObjects.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\AnimationKeying.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Objects\Square.MYOBJ">
+      <Filter>Objects</Filter>
+    </None>
+    <None Include="Objects\Triangle.MYOBJ">
+      <Filter>Objects</Filter>
+    </None>
+    <None Include="Shaders\SMappingNoTextureFrag.frag">
+      <Filter>Shaders\ShadowMapping\NoTextureShader</Filter>
+    </None>
+    <None Include="Shaders\SMappingNoTextureVert.vert">
+      <Filter>Shaders\ShadowMapping\NoTextureShader</Filter>
+    </None>
+    <None Include="Shaders\SMappingBasicFrag.frag">
+      <Filter>Shaders\ShadowMapping\BasicShader</Filter>
+    </None>
+    <None Include="Shaders\SMappingBasicVert.vert">
+      <Filter>Shaders\ShadowMapping\BasicShader</Filter>
+    </None>
+    <None Include="Shaders\SMappingDepthTextureVert.vert">
+      <Filter>Shaders\ShadowMapping\DepthTextureShader</Filter>
+    </None>
+    <None Include="Shaders\SMappingDepthTextureFrag.frag">
+      <Filter>Shaders\ShadowMapping\DepthTextureShader</Filter>
+    </None>
+    <None Include="Shaders\SShadowingBasicFrag.frag">
+      <Filter>Shaders\StencilShadowing\BasicShader</Filter>
+    </None>
+    <None Include="Shaders\SShadowingBasicVert.vert">
+      <Filter>Shaders\StencilShadowing\BasicShader</Filter>
+    </None>
+    <None Include="Shaders\SShadowingNoTextureFrag.frag">
+      <Filter>Shaders\StencilShadowing\NoTextureShader</Filter>
+    </None>
+    <None Include="Shaders\SShadowingNoTextureVert.vert">
+      <Filter>Shaders\StencilShadowing\NoTextureShader</Filter>
+    </None>
+    <None Include="Shaders\WhiteSpaceVert.vert">
+      <Filter>Shaders\BareMinimum\WhiteSpace</Filter>
+    </None>
+    <None Include="Shaders\WhiteSpaceFrag.frag">
+      <Filter>Shaders\BareMinimum\WhiteSpace</Filter>
+    </None>
+    <None Include="Shaders\BasicVert.vert">
+      <Filter>Shaders\BareMinimum\BasicTextureShader</Filter>
+    </None>
+    <None Include="Shaders\BasicFrag.frag">
+      <Filter>Shaders\BareMinimum\BasicTextureShader</Filter>
+    </None>
+    <None Include="Shaders\SShadowingNoTextureGeom.geom">
+      <Filter>Shaders\StencilShadowing\NoTextureShader</Filter>
+    </None>
+    <None Include="Shaders\FractalVert.vert">
+      <Filter>Shaders\Fractal\Fractal</Filter>
+    </None>
+    <None Include="Shaders\FractalFrag.frag">
+      <Filter>Shaders\Fractal\Fractal</Filter>
+    </None>
+    <None Include="Shaders\GenerateShadowEdges.comp">
+      <Filter>Shaders\StencilShadowing\Compute</Filter>
+    </None>
+    <None Include="Shaders\SShadowsVert.vert">
+      <Filter>Shaders\StencilShadowing\StretchedShadows</Filter>
+    </None>
+    <None Include="Shaders\SShadowsFrag.frag">
+      <Filter>Shaders\StencilShadowing\StretchedShadows</Filter>
+    </None>
+    <None Include="Shaders\SSDarkenFrag.frag">
+      <Filter>Shaders\StencilShadowing\ShadowDrawing</Filter>
+    </None>
+    <None Include="Shaders\SSDarkenVert.vert">
+      <Filter>Shaders\StencilShadowing\ShadowDrawing</Filter>
+    </None>
+    <None Include="Shaders\EShadowsVert.vert">
+      <Filter>Shaders\StencilShadowing\EdgeShadows</Filter>
+    </None>
+    <None Include="Shaders\EShadowsFrag.frag">
+      <Filter>Shaders\StencilShadowing\EdgeShadows</Filter>
+    </None>
+    <None Include="Shaders\BasicNoTextureFrag.frag">
+      <Filter>Shaders\BareMinimum\BasicNoTextureShader</Filter>
+    </None>
+    <None Include="Shaders\BasicNoTextureVert.vert">
+      <Filter>Shaders\BareMinimum\BasicNoTextureShader</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Archivies.txt" />
+    <Text Include="Objects\Cube.MYOBJ">
+      <Filter>Objects</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CPPFiles">
+      <UniqueIdentifier>{cb4b5499-d64b-429a-83aa-a42764c967eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Objects">
+      <UniqueIdentifier>{86880a7f-b946-470c-9ddf-a2c924392fde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{b802b4d5-dd27-4c08-9ebf-331055f27251}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\StencilShadowing">
+      <UniqueIdentifier>{dfd8ed8e-d664-4e9b-9d66-1bb36c5f0582}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\StencilShadowing\BasicShader">
+      <UniqueIdentifier>{fbb458d3-2954-442f-88f7-048fccd79a36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\StencilShadowing\NoTextureShader">
+      <UniqueIdentifier>{ecad000b-5f15-498b-81c9-0a3ad173321a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\BareMinimum">
+      <UniqueIdentifier>{4e6a1f32-6c9d-49ae-bd7c-e0d5a5a88f6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\StencilShadowing\Compute">
+      <UniqueIdentifier>{64af73bd-d953-4eaf-a824-6e3fcb8169c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Fractal">
+      <UniqueIdentifier>{8f66e5d5-f631-4a7c-911d-07d0424bb700}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Fractal\Fractal">
+      <UniqueIdentifier>{4fa77dbb-abd3-49ab-a8fc-043365e1b08a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\ShadowMapping">
+      <UniqueIdentifier>{1f27c916-4464-465f-914a-9687a3b13cd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\ShadowMapping\NoTextureShader">
+      <UniqueIdentifier>{8c1e3b4a-d26a-4a5b-94f9-f7d3b8149092}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\ShadowMapping\DepthTextureShader">
+      <UniqueIdentifier>{e35426fd-f151-4ccf-945e-b638ec31f6e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\ShadowMapping\BasicShader">
+      <UniqueIdentifier>{cec9d362-171e-455b-866e-85b5609dabe2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\StencilShadowing\ShadowDrawing">
+      <UniqueIdentifier>{fff3b383-9bae-4d40-9b16-de97fcf9407a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\StencilShadowing\StretchedShadows">
+      <UniqueIdentifier>{e9596c4a-a3bb-4816-9ca3-1cb6e616430c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\StencilShadowing\EdgeShadows">
+      <UniqueIdentifier>{44cec0bb-7218-4269-9117-e689d833726d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\BareMinimum\WhiteSpace">
+      <UniqueIdentifier>{69e14e63-c2b7-45bc-aea8-24d404214850}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\BareMinimum\BasicTextureShader">
+      <UniqueIdentifier>{e2aae7d6-0143-4f61-958c-05283a58753f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\BareMinimum\BasicNoTextureShader">
+      <UniqueIdentifier>{84f27af8-4cf5-4951-a3b4-72e90d9aff54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headers">
+      <UniqueIdentifier>{c777dffa-b0a3-4bb7-8ad1-a221d3f6d119}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

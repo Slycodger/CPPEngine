@@ -1,0 +1,130 @@
+#version 450
+
+layout (local_size_x = 1, local_size_y = 1, local_size_z = 1) in;
+
+struct AloneEdgeStruct
+{
+	vec4 Vert1;
+	vec4 Vert2;
+	vec4 Vert3;
+	int Index1;
+	int Index2;
+	vec2 Padding;
+};
+struct ConnectedEdgeStruct
+{
+	vec4 Vert1;
+	vec4 Vert2;
+	vec4 Vert3;
+	vec4 Vert4;
+	int Index1;
+	int Index2;
+	ivec2 Padding;
+};
+
+struct OutputStruct
+{
+	ivec2 Alone;
+	ivec2 Connected;
+};
+
+layout(std430, binding = 0) buffer AloneBuffer
+{
+	AloneEdgeStruct AloneVars[];
+};
+
+layout(std430, binding = 1) buffer ConectedBuffer
+{
+	ConnectedEdgeStruct ConnectedVars[];
+};
+
+layout(std430, binding = 2) buffer Output
+{
+	OutputStruct Out[];
+};
+
+vec4 GetNormal(vec4 Vert1, vec4 Vert2, vec4 Vert3)
+{
+	vec4 Ret;
+
+	Ret = vec4(cross((Vert2 - Vert1).xyz, (Vert3 - Vert1).xyz), 0);
+
+	return Ret;
+}
+vec4 GetOrigin(vec4 Vert1, vec4 Vert2, vec4 Vert3)
+{
+	vec4 Ret = (Vert1 + Vert2 + Vert3) / 3;
+	Ret.w = 0;
+
+	return Ret;
+}
+
+uniform vec3 LightPos;
+uniform int AloneCount;
+uniform int ConnectedCount;
+
+void main()
+{
+	uvec3 ID = gl_GlobalInvocationID;
+	uint GlobalIndex = (ID.x * ID.y * ID.z) + (ID.x * ID.y) + ID.x;
+
+	vec4 CurrentNormal;
+	vec4 FriendNormal;
+	vec4 CurrentOrigin;
+	vec4 FriendOrigin;
+
+	if(GlobalIndex < AloneCount)
+	{	
+		CurrentOrigin = GetOrigin(AloneVars[GlobalIndex].Vert1, AloneVars[GlobalIndex].Vert2, AloneVars[GlobalIndex].Vert3);
+		CurrentNormal = GetNormal(AloneVars[GlobalIndex].Vert1, AloneVars[GlobalIndex].Vert2, AloneVars[GlobalIndex].Vert3);
+
+		vec4 CamToOrigin = CurrentOrigin - vec4(LightPos, 0);
+		CamToOrigin = normalize(CamToOrigin);
+		float Result = dot(CurrentNormal, CamToOrigin);
+		if(Result < 0)
+		{
+			Out[GlobalIndex].Alone.x = AloneVars[GlobalIndex].Index1;
+			Out[GlobalIndex].Alone.y = AloneVars[GlobalIndex].Index2;
+		}
+		else
+		{
+			Out[GlobalIndex].Alone.x = -1;
+			Out[GlobalIndex].Alone.y = -1;
+		}
+	}
+	else
+	{
+		Out[GlobalIndex].Alone.x = -1;
+		Out[GlobalIndex].Alone.y = -1;
+	}
+
+
+	if(GlobalIndex < ConnectedCount)
+	{	
+		CurrentOrigin = GetOrigin(ConnectedVars[GlobalIndex].Vert1, ConnectedVars[GlobalIndex].Vert2, ConnectedVars[GlobalIndex].Vert3);
+		FriendOrigin = GetOrigin(ConnectedVars[GlobalIndex].Vert1, ConnectedVars[GlobalIndex].Vert2, ConnectedVars[GlobalIndex].Vert4);
+		CurrentNormal = GetNormal(ConnectedVars[GlobalIndex].Vert1, ConnectedVars[GlobalIndex].Vert2, ConnectedVars[GlobalIndex].Vert3);
+		FriendNormal = GetNormal(ConnectedVars[GlobalIndex].Vert1, ConnectedVars[GlobalIndex].Vert4, ConnectedVars[GlobalIndex].Vert2);
+
+		vec4 CurrentToOrigin = CurrentOrigin - vec4(LightPos, 0);
+		vec4 FriendToOrigin = FriendOrigin - vec4(LightPos, 0);
+		CurrentToOrigin = normalize(CurrentToOrigin);
+		FriendToOrigin = normalize(FriendToOrigin);
+		float CurrentResult = dot(CurrentNormal, CurrentToOrigin);
+		float FriendResult = dot(FriendNormal, FriendToOrigin);
+		if((CurrentResult < 0 || FriendResult < 0) && sign(CurrentResult) != sign(FriendResult))
+		{
+			Out[GlobalIndex].Connected.x = ConnectedVars[GlobalIndex].Index1;
+			Out[GlobalIndex].Connected.y = ConnectedVars[GlobalIndex].Index2;
+		}
+		else
+		{
+			Out[GlobalIndex].Connected.x = -1;
+			Out[GlobalIndex].Connected.y = -1;
+		}
+	}else
+	{
+		Out[GlobalIndex].Connected.x = -1;
+		Out[GlobalIndex].Connected.y = -1;
+	}
+}

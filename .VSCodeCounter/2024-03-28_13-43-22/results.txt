@@ -1,0 +1,44 @@
+Date : 2024-03-28 13:43:22
+Directory : c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders
+Total : 20 files,  459 codes, 0 comments, 109 blanks, all 568 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| GLSL     |         20 |        459 |          0 |        109 |        568 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                  | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                     |         20 |        459 |          0 |        109 |        568 |
++-------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                              | language | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\BasicFrag.frag                | GLSL     |         12 |          0 |          5 |         17 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\BasicVert.vert                | GLSL     |         16 |          0 |          4 |         20 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\FractalFrag.frag              | GLSL     |         29 |          0 |         11 |         40 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\FractalVert.vert              | GLSL     |          6 |          0 |          1 |          7 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\GenerateShadowEdges.comp      | GLSL     |        118 |          0 |         17 |        135 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\NoTextureFrag.frag            | GLSL     |          8 |          0 |          3 |         11 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\NoTextureVert.vert            | GLSL     |         13 |          0 |          4 |         17 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\SMappingBasicFrag.frag        | GLSL     |         47 |          0 |         11 |         58 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\SMappingBasicVert.vert        | GLSL     |         21 |          0 |          5 |         26 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\SMappingDepthTextureFrag.frag | GLSL     |          4 |          0 |          2 |          6 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\SMappingDepthTextureVert.vert | GLSL     |          9 |          0 |          2 |         11 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\SMappingNoTextureFrag.frag    | GLSL     |         43 |          0 |         11 |         54 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\SMappingNoTextureVert.vert    | GLSL     |         18 |          0 |          5 |         23 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\VShadowingBasicFrag.frag      | GLSL     |         12 |          0 |          5 |         17 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\VShadowingBasicVert.vert      | GLSL     |         16 |          0 |          4 |         20 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\VShadowingNoTextureFrag.frag  | GLSL     |          8 |          0 |          3 |         11 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\VShadowingNoTextureGeom.geom  | GLSL     |         54 |          0 |          8 |         62 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\VShadowingNoTextureVert.vert  | GLSL     |         10 |          0 |          3 |         13 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\VShadowsFrag.frag             | GLSL     |          6 |          0 |          2 |          8 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Shaders\VShadowsVert.vert             | GLSL     |          9 |          0 |          3 |         12 |
+| Total                                                                                                 |          |        459 |          0 |        109 |        568 |
++-------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
