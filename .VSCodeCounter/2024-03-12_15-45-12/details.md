@@ -1,3 +1,4 @@
+# Details
 
 Date : 2024-03-12 15:45:12
 
@@ -13,6 +14,7 @@ Total : 15 files,  275 codes, 21 comments, 74 blanks, all 370 lines
 | [Shaders/BasicFrag.frag](/Shaders/BasicFrag.frag) | GLSL | 12 | 0 | 5 | 17 |
 | [Shaders/BasicVert.vert](/Shaders/BasicVert.vert) | GLSL | 16 | 0 | 4 | 20 |
 | [Shaders/NoTextureFrag.frag](/Shaders/NoTextureFrag.frag) | GLSL | 8 | 0 | 3 | 11 |
+| [Shaders/NoTextureVert.vert](/Shaders/NoTextureVert.vert) | GLSL | 13 | 0 | 4 | 17 |
 | [Shaders/SMappingBasicFrag.frag](/Shaders/SMappingBasicFrag.frag) | GLSL | 47 | 0 | 11 | 58 |
 | [Shaders/SMappingBasicVert.vert](/Shaders/SMappingBasicVert.vert) | GLSL | 21 | 0 | 5 | 26 |
 | [Shaders/SMappingDepthTextureFrag.frag](/Shaders/SMappingDepthTextureFrag.frag) | GLSL | 4 | 0 | 2 | 6 |
