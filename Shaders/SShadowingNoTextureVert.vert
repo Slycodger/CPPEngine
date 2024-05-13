@@ -2,10 +2,12 @@
 layout(location = 0) in vec3 Pos;
 layout(location = 2) in vec4 Color;
 
+uniform vec3 MeshColor;
+
 out vec4 geomColor;
 
 void main()
 {
-	gl_Position = vec4(Pos, 1);
-	geomColor = Color;
+	gl_Position = vec4(Pos * 1.01, 1);
+	geomColor = Color * vec4(MeshColor, 1);
 }

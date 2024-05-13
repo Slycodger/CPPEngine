@@ -20,7 +20,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glad\src\glad.c" />
-    <ClCompile Include="Scripts\AnimationKeying.cpp" />
     <ClCompile Include="Scripts\Constants.cpp" />
     <ClCompile Include="Scripts\ModelLoading.cpp" />
     <ClCompile Include="Scripts\AObjectDraw.cpp" />
@@ -28,6 +27,7 @@
     <ClCompile Include="Scripts\DrawingPad.cpp" />
     <ClCompile Include="Scripts\GUIText.cpp" />
     <ClCompile Include="Scripts\KeyPresses.cpp" />
+    <ClCompile Include="Scripts\LightingMain.cpp" />
     <ClCompile Include="Scripts\MathFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +55,7 @@
     <None Include="Shaders\SMappingBasicFrag.frag" />
     <None Include="Shaders\SMappingNoTextureVert.vert" />
     <None Include="Shaders\SMappingBasicVert.vert" />
+    <None Include="Shaders\SShadowsGeom.geom" />
     <None Include="Shaders\SShadowingBasicVert.vert" />
     <None Include="Shaders\SShadowingBasicFrag.frag" />
     <None Include="Shaders\SShadowingNoTextureFrag.frag" />
@@ -66,7 +67,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ft2build.h" />
-    <ClInclude Include="Scripts\AnimationKeying.h" />
     <ClInclude Include="Scripts\AObjectDraw.h" />
     <ClInclude Include="Scripts\ApplicationMain.h" />
     <ClInclude Include="Scripts\Button.h" />
@@ -79,7 +79,8 @@
     <ClInclude Include="Scripts\GUIText.h" />
     <ClInclude Include="Scripts\IntializeShaders.h" />
     <ClInclude Include="Scripts\KeyPresses.h" />
-    <ClInclude Include="Scripts\LightingObjects.h" />
+    <ClInclude Include="Scripts\LightingMain.h" />
+    <ClInclude Include="Scripts\Line.h" />
     <ClInclude Include="Scripts\List.h" />
     <ClInclude Include="Scripts\MathFunctions.h" />
     <ClInclude Include="Scripts\Mouse.h" />

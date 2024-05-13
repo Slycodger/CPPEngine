@@ -18,22 +18,20 @@
 #include "Camera.h"
 #include "List.h"
 #include "EngineBase.h"
-#include "LightingObjects.h"
+#include "LightingMain.h"
 
 int GetGameObj(std::string name);
 void SetToTransform(std::string GameObj, Object* Obj);
 void SetToTransform(Object* Obj);
-void CreateModelMat(glm::mat4& PosMat, glm::mat4& RotMat, glm::mat4& ScaleMat, transform& Transform);
+void CreateModelMat(glm::mat4& Mat, Vector3 Position, Vector3 Rotation, Vector3 Scale);
 void CreateCamMat(glm::mat4& Mat, Vector3 Position, Vector3 Rotation);
-void RenderCustomObj(Shader& shader, unsigned int VAO, unsigned int VBO, unsigned int EBO, unsigned int EBOCount, Vector3 MeshColor, transform& Transform);
+void RenderCustomObj(Shader& shader, unsigned int VAO, unsigned int VBO, unsigned int EBO, unsigned int EBOCount, Vector3 MeshColor, transform Transform);
 void RenderSingleObj(Shader& shader, Object*& ObjToDraw, std::string NoTextureShader, std::string TextureShader);
-void RenderShadows(Shader& shader, Vector4 LightColor);
+void RenderShadows(Shader& shader);
 void RenderScene(Shader& shader, std::string NoTextureShader, std::string TextureShader);
 float* CreatePerspectiveMat(float FOV, float Ratio, float FarClip, float NearClip);
 void RenderStretchScene(Shader& shader);
 void RenderScreen(Shader& shader, Object*& ObjWithScreen, std::string Shader);
-void RenderShadowVolumes(Shader& shader, Vector3 LightPos);
-void RenderAllWithShadows(Shader& shader, Vector4 ShadowColor);
 
 //Camera setings
 float CameraNearClip = 0.01;
@@ -73,9 +71,8 @@ float* OrthographicMat = new float[16]
 	0, 0, -(CameraFarClip + CameraNearClip) / (CameraFarClip - CameraNearClip), 1
 };
 
+glm::mat4 ObjTransformMat(1);
 glm::mat4 ViewMat(1);
-glm::mat4 IdentityGLM(1);
-float* IdentityMat = glm::value_ptr(IdentityGLM);
 
 #endif
 

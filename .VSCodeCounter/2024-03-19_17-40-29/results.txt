@@ -1,0 +1,52 @@
+Date : 2024-03-19 17:40:29
+Directory : c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts
+Total : 28 files,  3230 codes, 197 comments, 405 blanks, all 3832 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| C++      |         28 |      3,230 |        197 |        405 |      3,832 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                        | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                           |         28 |      3,230 |        197 |        405 |      3,832 |
++---------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                    | language | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\AObjectDraw.cpp     | C++      |        520 |        111 |         74 |        705 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\AObjectDraw.h       | C++      |         64 |          7 |         12 |         83 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\ApplicationMain.cpp | C++      |        235 |         11 |         32 |        278 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\ApplicationMain.h   | C++      |         20 |          0 |          5 |         25 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\Button.h            | C++      |         23 |          0 |          5 |         28 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\Camera.h            | C++      |         83 |          0 |          3 |         86 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\Constants.h         | C++      |         15 |          3 |          3 |         21 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\DrawingPad.cpp      | C++      |         83 |         11 |          9 |        103 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\DrawingPad.h        | C++      |         25 |          3 |          6 |         34 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\EngineBase.h        | C++      |         16 |          0 |          1 |         17 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\GUIText.cpp         | C++      |        243 |         10 |         50 |        303 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\GUIText.h           | C++      |         56 |          0 |         12 |         68 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\GlStuff.h           | C++      |         11 |          3 |          2 |         16 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\GlobalVars.h        | C++      |         32 |          3 |          1 |         36 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\IntializeShaders.h  | C++      |        218 |          3 |         21 |        242 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\KeyPresses.cpp      | C++      |         58 |          3 |          7 |         68 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\KeyPresses.h        | C++      |         17 |          3 |          4 |         24 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\LightingMain.cpp    | C++      |        344 |         15 |         58 |        417 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\LightingMain.h      | C++      |         74 |          0 |         16 |         90 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\Line.h              | C++      |        105 |          0 |          6 |        111 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\List.h              | C++      |        152 |          0 |          4 |        156 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\MathFunctions.cpp   | C++      |         44 |          0 |          9 |         53 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\MathFunctions.h     | C++      |         15 |          0 |          2 |         17 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\Mouse.h             | C++      |         16 |          0 |          4 |         20 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\ObjectClasses.h     | C++      |        215 |          5 |         17 |        237 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\Raycasting.h        | C++      |         53 |          0 |         19 |         72 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\VAOCreate.h         | C++      |        310 |          6 |         11 |        327 |
+| c:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\Scripts\Vector.h            | C++      |        183 |          0 |         12 |        195 |
+| Total                                                                                       |          |      3,230 |        197 |        405 |      3,832 |
++---------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

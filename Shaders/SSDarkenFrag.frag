@@ -1,10 +1,8 @@
 #version 450 core
 
-uniform vec4 LightColor;
-
 out vec4 Color;
 
 void main()
 {
-	Color = LightColor;
+	Color = vec4(0, 0, 0, 1);
 }

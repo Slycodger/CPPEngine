@@ -45,7 +45,7 @@ unsigned int*& ReturnIndiceCopy(unsigned int ID)
 	return NewIndices;
 }
 
-void LoadModelCopy(Model& Model, unsigned int ID)
+void LoadModelCopy(Model &Model, unsigned int ID)
 {
 	Model.Vertices = ReturnVerticeCopy(ID);
 	Model.Indices = ReturnIndiceCopy(ID);
@@ -54,7 +54,7 @@ void LoadModelCopy(Model& Model, unsigned int ID)
 	Model.Name = ModelsLoaded[ID].Name;
 }
 
-static unsigned int GetFreeModelSlot()
+unsigned int GetFreeModelSlot()
 {
 	for (unsigned int i = 0; i < MAXMODELCOUNT; i++)
 	{
@@ -64,7 +64,7 @@ static unsigned int GetFreeModelSlot()
 	return 0;
 }
 
-static double ParseDouble(std::string String)
+double ParseDouble(std::string String)
 {
 	bool Neg = false, Expo = false, Deci = false;
 	double RetVal = 0, UseVal = 0, MulDivVal = 1;
@@ -109,7 +109,7 @@ static double ParseDouble(std::string String)
 	return RetVal;
 }
 
-static unsigned int ParseUnsignedInterger(std::string String)
+unsigned int ParseUnsignedInterger(std::string String)
 {
 	unsigned int Ret = 0;
 	for (const char Char : String)
@@ -120,26 +120,22 @@ static unsigned int ParseUnsignedInterger(std::string String)
 	return Ret;
 }
 
-//Type of Element
-static void ElementToArrayDrawing
-(float*& OldVertices, unsigned int*& Indices, unsigned int IndiceCount, unsigned int TotalLength)
+void ElementToArrayDrawing(float*& OldVertices, unsigned int*& Indices, unsigned int IndiceCount, unsigned int VertLength)
 {
-	float* Vertices = new float[IndiceCount * TotalLength];
+	float* Vertices = new float[IndiceCount * VertLength];
 
 	for (unsigned int Index = 0; Index < IndiceCount; Index++)
 	{
-		for (unsigned int i = 0; i < TotalLength; i++)
+		for (int i = 0; i < VertLength; i++)
 		{
-			Vertices[Index * TotalLength + i] = OldVertices[Indices[Index] * TotalLength + i];
+			Vertices[Index * VertLength + i] = OldVertices[Indices[Index] * VertLength + i];
 		}
 	}
 	delete[](OldVertices);
 	OldVertices = Vertices;
 }
 
-//Type of Array
-static void AddNormals
-(float*& Vertices, unsigned int VertCount, unsigned int VertLength, unsigned int Padding)
+void AddNormalsToArray(float*& Vertices, unsigned int VertCount, unsigned int VertLength, unsigned int Padding)
 {
 	unsigned int TrueLength = VertLength + Padding;
 
@@ -147,7 +143,7 @@ static void AddNormals
 	Vector3 Vert2;
 	Vector3 Vert3;
 
-	for (unsigned int i = 0; i < VertCount; i += TrueLength * 3)
+	for (int i = 0; i < VertCount; i += TrueLength * 3)
 	{
 		Vert1.x = Vertices[i];
 		Vert1.y = Vertices[i + 1];
@@ -184,142 +180,9 @@ static void AddNormals
 	}
 }
 
-//Type of Array
-static void EdgeToRect
-(float*& OldVertices, unsigned int &VertCount, unsigned int &IndiceCount, unsigned int NormalPos, unsigned int NormalLength, unsigned int TotalLength)
+int LoadMYOBJFile(LoadedModel& CurrentModel, std::string ModelName, std::string FileType)
 {
-	float* Vertices = new float[VertCount * 4];
-	IndiceCount *= 4;
-
-	unsigned int EdgesIn = 0;
-	for (unsigned int i = 0; i < VertCount * 4; i++)
-	{
-		if (i < VertCount)
-			Vertices[i] = OldVertices[i];
-		else
-			Vertices[i] = 1;
-	}
-
-	List<Edge> Edges = 0;
-
-	unsigned int ArrPos = 0;
-
-	for (unsigned int i = 0; i < VertCount; i += TotalLength * 3)
-	{
-		for (int TriEdge = 0; TriEdge < 3; TriEdge++)
-		{
-			Vector3 Vert1;
-			Vector3 Vert2;
-			Vector3 Normal;
-			if (NormalLength > 0)
-				Normal.x = Vertices[i + NormalPos];
-			if (NormalLength > 1)
-				Normal.y = Vertices[i + NormalPos + 1];
-			if (NormalLength > 2)
-				Normal.z = Vertices[i + NormalPos + 2];
-
-			switch (TriEdge)
-			{
-			case 0:
-				Vert2 = { Vertices[i], Vertices[i + 1], Vertices[i + 2] };
-				Vert1 = { Vertices[i + TotalLength], Vertices[i + TotalLength + 1], Vertices[i + TotalLength + 2] };
-				break;
-			case 1:
-				Vert2 = { Vertices[i + TotalLength], Vertices[i + TotalLength + 1], Vertices[i + TotalLength + 2] };
-				Vert1 = { Vertices[i + (2 * TotalLength)], Vertices[i + 1 + (2 * TotalLength)], Vertices[i + 2 + (2 * TotalLength)] };
-				break;
-			case 2:
-				Vert2 = { Vertices[i + (2 * TotalLength)], Vertices[i + 1 + (2 * TotalLength)], Vertices[i + 2 + (2 * TotalLength)] };
-				Vert1 = { Vertices[i], Vertices[i + 1], Vertices[i + 2] };
-				break;
-			}
-
-			if (Edges.Contains({ Vert1, Vert2, Vector3(0) }, ArrPos))
-			{
-				Edge edge = *Edges[ArrPos];
-				//Triangle 1
-				Vertices[VertCount + (EdgesIn * TotalLength)] = Vert1.x;
-				Vertices[VertCount + 1 + (EdgesIn * TotalLength)] = Vert1.y;
-				Vertices[VertCount + 2 + (EdgesIn * TotalLength)] = Vert1.z;
-				if (NormalLength > 0)
-					Vertices[VertCount + NormalPos + (EdgesIn * TotalLength)] = Normal.x;
-				if (NormalLength > 1)
-					Vertices[VertCount + 1 + NormalPos + (EdgesIn * TotalLength)] = Normal.y;
-				if (NormalLength > 2)
-					Vertices[VertCount + 2 + NormalPos + (EdgesIn * TotalLength)] = Normal.z;
-				EdgesIn++;
-
-				Vertices[VertCount + (EdgesIn * TotalLength)] = Vert2.x;
-				Vertices[VertCount + 1 + (EdgesIn * TotalLength)] = Vert2.y;
-				Vertices[VertCount + 2 + (EdgesIn * TotalLength)] = Vert2.z;
-				if (NormalLength > 0)
-					Vertices[VertCount + NormalPos + (EdgesIn * TotalLength)] = Normal.x;
-				if (NormalLength > 1)
-					Vertices[VertCount + 1 + NormalPos + (EdgesIn * TotalLength)] = Normal.y;
-				if (NormalLength > 2)
-					Vertices[VertCount + 2 + NormalPos + (EdgesIn * TotalLength)] = Normal.z;
-				EdgesIn++;
-
-				Vertices[VertCount + (EdgesIn * TotalLength)] = edge.Vert1.x;
-				Vertices[VertCount + 1 + (EdgesIn * TotalLength)] = edge.Vert1.y;
-				Vertices[VertCount + 2 + (EdgesIn * TotalLength)] = edge.Vert1.z;
-				if (NormalLength > 0)
-					Vertices[VertCount + NormalPos + (EdgesIn * TotalLength)] = edge.Normal.x;
-				if (NormalLength > 1)
-					Vertices[VertCount + 1 + NormalPos + (EdgesIn * TotalLength)] = edge.Normal.y;
-				if (NormalLength > 2)
-					Vertices[VertCount + 2 + NormalPos + (EdgesIn * TotalLength)] = edge.Normal.z;
-				EdgesIn++;
-
-
-				//Triangle 2
-				Vertices[VertCount + (EdgesIn * TotalLength)] = Vert1.x;
-				Vertices[VertCount + 1 + (EdgesIn * TotalLength)] = Vert1.y;
-				Vertices[VertCount + 2 + (EdgesIn * TotalLength)] = Vert1.z;
-				if (NormalLength > 0)
-					Vertices[VertCount + NormalPos + (EdgesIn * TotalLength)] = Normal.x;
-				if (NormalLength > 1)
-					Vertices[VertCount + 1 + NormalPos + (EdgesIn * TotalLength)] = Normal.y;
-				if (NormalLength > 2)
-					Vertices[VertCount + 2 + NormalPos + (EdgesIn * TotalLength)] = Normal.z;
-				EdgesIn++;
-
-				Vertices[VertCount + (EdgesIn * TotalLength)] = edge.Vert1.x;
-				Vertices[VertCount + 1 + (EdgesIn * TotalLength)] = edge.Vert1.y;
-				Vertices[VertCount + 2 + (EdgesIn * TotalLength)] = edge.Vert1.z;
-				if (NormalLength > 0)
-					Vertices[VertCount + NormalPos + (EdgesIn * TotalLength)] = edge.Normal.x;
-				if (NormalLength > 1)
-					Vertices[VertCount + 1 + NormalPos + (EdgesIn * TotalLength)] = edge.Normal.y;
-				if (NormalLength > 2)
-					Vertices[VertCount + 2 + NormalPos + (EdgesIn * TotalLength)] = edge.Normal.z;
-				EdgesIn++;
-
-				Vertices[VertCount + (EdgesIn * TotalLength)] = edge.Vert2.x;
-				Vertices[VertCount + 1 + (EdgesIn * TotalLength)] = edge.Vert2.y;
-				Vertices[VertCount + 2 + (EdgesIn * TotalLength)] = edge.Vert2.z;
-				if (NormalLength > 0)
-					Vertices[VertCount + NormalPos + (EdgesIn * TotalLength)] = edge.Normal.x;
-				if (NormalLength > 1)
-					Vertices[VertCount + 1 + NormalPos + (EdgesIn * TotalLength)] = edge.Normal.y;
-				if (NormalLength > 2)
-					Vertices[VertCount + 2 + NormalPos + (EdgesIn * TotalLength)] = edge.Normal.z;
-				EdgesIn++;
-			}
-			else
-				Edges.AddToList(Edge{ Vert1, Vert2, Normal });
-		}
-	}
-
-	VertCount *= 4;
-	Edges.Delete();
-	delete[](OldVertices);
-	OldVertices = Vertices;
-}
-
-static int LoadMYOBJFile(LoadedModel& CurrentModel, std::string ModelName, std::string FileType)
-{
-	unsigned int VertPadding = 3;
+	unsigned int VertPadding = 0;
 
 	//Load file
 	std::string FileString;
@@ -349,6 +212,8 @@ static int LoadMYOBJFile(LoadedModel& CurrentModel, std::string ModelName, std::
 
 	for (unsigned int Char = 0; Char < CharCount; Char++)
 	{
+		if (FileString[Char] == 'n')
+			break;
 		if ((FileString[Char] == ' ' && FileString[Char - 1] != ' ') || (FileString[Char] == '\r' && FileString[Char + 1] == '\n' && FileString[Char - 1] != '\n') || (FileString[Char] == '\n' && FileString[Char - 1] != '\n'))
 		{
 			if (VertCount == 0)
@@ -412,22 +277,9 @@ static int LoadMYOBJFile(LoadedModel& CurrentModel, std::string ModelName, std::
 
 	//Return here for element-based drawing
 
-	ElementToArrayDrawing(Vertices, Indices, IndiceCount, 9 + VertPadding);
-	VertCount = IndiceCount * (9 + VertPadding);
-	AddNormals(Vertices, VertCount, 9, VertPadding);
-
-	if(ModelName == "Cube")
-		EdgeToRect(Vertices, VertCount, IndiceCount, 9, 3, 12);
-
-	//Debugging
-	//for (int i = 0; i < VertCount; i++)
-	//{
-	//	std::cout << Vertices[i] << " ";
-	//	if ((i + 1) % 12 == 0)
-	//		std::cout << "\n";
-	//	if ((i + 1) % 36 == 0)
-	//		std::cout << "\n";
-	//}
+	//ElementToArrayDrawing(Vertices, Indices, IndiceCount, 9 + VertPadding);
+	//VertCount = IndiceCount * (9 + VertPadding);
+	//AddNormalsToArray(Vertices, VertCount, 9, VertPadding);
 
 	CurrentModel.Vertices = Vertices;
 	CurrentModel.Indices = Indices;
@@ -438,7 +290,7 @@ static int LoadMYOBJFile(LoadedModel& CurrentModel, std::string ModelName, std::
 	return 0;
 }
 
-static int LoadModelIntoBuffer(Model& CurrentModel, std::string ModelName, std::string FileType)
+int LoadModelIntoBuffer(Model& CurrentModel, std::string ModelName, std::string FileType)
 {
 	if (CurrentModel.VertCount > 0)
 		CurrentModel.DeleteModel();
@@ -470,7 +322,7 @@ static int LoadModelIntoBuffer(Model& CurrentModel, std::string ModelName, std::
 	return 0;
 }
 
-void UnloadModel(unsigned int ID)
+void UnloadModelFromBuffer(unsigned int ID)
 {
 	delete[](ModelsLoaded[ID].Vertices);
 	ModelsLoaded[ID].Vertices = nullptr;
@@ -487,10 +339,7 @@ void LoadModel(Model& CurrentModel, std::string ModelName, std::string FileType)
 	if (CurrentModel.VertCount > 0)
 		CurrentModel.DeleteModel();
 	if (!ObjsLoaded.contains(ModelName))
-	{
 		LoadModelIntoBuffer(CurrentModel, ModelName, FileType);
-		return;
-	}
 	LoadModelCopy(CurrentModel, ObjsLoaded[ModelName]);
 }
 

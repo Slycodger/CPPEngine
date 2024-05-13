@@ -20,13 +20,13 @@
     <ClCompile Include="Scripts\GUIText.cpp">
       <Filter>CPPFiles</Filter>
     </ClCompile>
+    <ClCompile Include="Scripts\LightingMain.cpp">
+      <Filter>CPPFiles</Filter>
+    </ClCompile>
     <ClCompile Include="Scripts\ModelLoading.cpp">
       <Filter>CPPFiles</Filter>
     </ClCompile>
     <ClCompile Include="Scripts\Constants.cpp" />
-    <ClCompile Include="Scripts\AnimationKeying.cpp">
-      <Filter>CPPFiles</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Scripts\ApplicationMain.h">
@@ -71,6 +71,9 @@
     <ClInclude Include="Scripts\ObjectClasses.h">
       <Filter>Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Scripts\Line.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
     <ClInclude Include="Scripts\Raycasting.h">
       <Filter>Headers</Filter>
     </ClInclude>
@@ -85,10 +88,7 @@
     <ClInclude Include="Scripts\Mouse.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\LightingObjects.h">
-      <Filter>Headers</Filter>
-    </ClInclude>
-    <ClInclude Include="Scripts\AnimationKeying.h">
+    <ClInclude Include="Scripts\LightingMain.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -157,6 +157,9 @@
       <Filter>Shaders\StencilShadowing\StretchedShadows</Filter>
     </None>
     <None Include="Shaders\SShadowsFrag.frag">
+      <Filter>Shaders\StencilShadowing\StretchedShadows</Filter>
+    </None>
+    <None Include="Shaders\SShadowsGeom.geom">
       <Filter>Shaders\StencilShadowing\StretchedShadows</Filter>
     </None>
     <None Include="Shaders\SSDarkenFrag.frag">

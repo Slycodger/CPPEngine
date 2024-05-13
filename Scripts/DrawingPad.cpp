@@ -5,41 +5,42 @@
 #include "DrawingPad.h"
 void CreateSphere(int Define, float Scale, unsigned int& SVBO, unsigned int& SEBO);
 
-static Model CubeModel;
+Model CubeModel;
 
 namespace DrawingPad
 {
 	float Speed = 10;
 	float RotSpeed = 20;
-	List<Object*> Objects = 1000;
+	List<Object*> Objects = 100;
 	Object* Floor = nullptr;
 	Object* Cube = nullptr;
 	Ray ray = Ray(Vector3(0,0,-1));
+
+	//Object* Text = new Object(0);
+	//TextBox* TextScript = nullptr;
 	
+
 	void Start()
 	{
 		LoadModel(CubeModel, "Cube", "MYOBJ");
 		Cube = new Object(CubeModel);
 		Cube->Transform.Scale(0.02);
-		for(int i = 0; i < 1000; i++)
+		for(int i = 0; i < 100; i++)
 		{
-			Objects.AddToList(new Object(CubeModel));
-			(*Objects[i])->Transform.T.Position = Vector3(((i % 20) * 2) -9, -10, (int)((i / 10) * 2) - 9.5);
+			Objects.AddToList(new Object*(new Object(CubeModel)));
+			(*Objects[i])->Transform.T.Position = Vector3(((i % 10) * 5) -9, -10, (int)((i / 10) * 5) - 9.5);
 		}
 		Floor = new Object(CubeModel);
 		Floor->Transform.T.Position = Vector3(0, -20, 0);
 		Floor->Transform.Scale(50, 1, 50);
+
+		//TextScript = new TextBox;
+	//	Text->AddScript((void*)TextScript);
 	}
 	void Update(GLFWwindow* window)
 	{
 		ray.RayDirection = MainCamera.DirectionFacing();
 		Cube->Transform.T.Position = MainCamera.Position + ray.RayDirection;
-
-		if (Keys::KeyHeld(GLFW_KEY_O))
-			Cube->Transform.Rotate(Vector3(45 * Time::deltaTime, 0, 0));
-		if (Keys::KeyHeld(GLFW_KEY_P))
-			Cube->Transform.Rotate(Vector3(-45 * Time::deltaTime, 0, 0));
-
 
 		if(Keys::KeyHeld(GLFW_KEY_W))
 		{
@@ -94,7 +95,6 @@ namespace DrawingPad
 	}
 	void End()
 	{
-		Objects.Delete();
-		CubeModel.DeleteModel();
+		//Objects.Delete();
 	}
 }

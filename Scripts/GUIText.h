@@ -30,7 +30,6 @@ namespace GUIText
     void DrawBitmap(Shader& shader);
     void Start(Shader& shader);
     void Update(Shader& shader);
-    void End();
 }
 
 
@@ -45,11 +44,7 @@ struct TextBox : ObjectBehavior
 
     void DestroyHeap() override
     {
-        for (unsigned int i = 0; i < TextObjects.Length; i++)
-        {
-            delete(*TextObjects[i]);
-            TextObjects.Delete();
-        }
+        TextObjects.Delete();
     }
 
     void Start() override

@@ -138,8 +138,17 @@ int main()
 		NewShaders.clear();
 	}
 	{
+		NewShaders.insert({ VERTFILE, "EShadowsVert" });
+		NewShaders.insert({ FRAGFILE, "EShadowsFrag" });
+		unsigned int TempShader;
+		myShader.CreateShader(NewShaders, TempShader);
+		ShaderPrograms.insert({ "EdgeShader", TempShader });
+		NewShaders.clear();
+	}
+	{
 		NewShaders.insert({ VERTFILE, "SShadowsVert"});
 		NewShaders.insert({ FRAGFILE, "SShadowsFrag"});
+		NewShaders.insert({ GEOMFILE, "SShadowsGeom"});
 		unsigned int TempShader;
 		myShader.CreateShader(NewShaders, TempShader);
 		ShaderPrograms.insert({ "StretchedShader", TempShader });
@@ -151,8 +160,6 @@ int main()
 	DrawingPad::Start();
 	AObjectDraw::Start(myShader);
 	GUIText::Start(myShader);
-	AdvanceAnimations();
-
 
 	glfwSetWindowPos(Window, 25, 25);
 	glfwGetWindowPos(Window, &WindowXPos, &WindowYPos);
@@ -218,7 +225,6 @@ int main()
 	}
 	AObjectDraw::End();
 	DrawingPad::End();
-	GUIText::End();
 	ModelLoading::DeleteHeap();
 	glfwSetWindowShouldClose(Window, 1);
 	glfwTerminate();
@@ -299,6 +305,7 @@ int StartOpenGL()
 	}
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+	glEnable(GL_BLEND);
 	yGridScale = gridHeight;
 	xGridScale = ((float)Width / Height) * yGridScale;
 	return 0;

@@ -36,10 +36,6 @@ struct Shader
 	{
 		glUniform4f(glGetUniformLocation(ID, Pos), x, y, z, w);
 	}
-	void SetVec4(const char* Pos, Vector4 Vec)
-	{
-		glUniform4f(glGetUniformLocation(ID, Pos), Vec.x, Vec.y, Vec.z, Vec.w);
-	}
 	void SetVec3(const char *Pos, float x, float y, float z)
 	{
 		glUniform3f(glGetUniformLocation(ID, Pos), x, y, z);

@@ -2,79 +2,72 @@
 #ifndef LIST
 #define LIST
 #include "GlobalVars.h"
-//template<class type>
-//struct adjType
-//{
-//	type *Thing = nullptr;
-//	void Delete()
-//	{
-//		delete(Thing);
-//		Thing = nullptr;
-//	}
-//	void operator = (const type Obj)
-//	{
-//		if (Thing == nullptr)
-//			Thing = new type(0);
-//		*Thing = Thing;
-//	}
-//	void operator = (const adjType Obj)
-//	{
-//		if (Thing == nullptr)
-//			Thing = new type ();
-//		*Thing = *Obj.Thing;
-//	}
-//};
+template<class type>
+struct adjType
+{
+	type *Thing = nullptr;
+	void Delete()
+	{
+		delete(Thing);
+		Thing = nullptr;
+	}
+	void operator = (const type Obj)
+	{
+		if (Thing == nullptr)
+			Thing = new type(0);
+		*Thing = Thing;
+	}
+	void operator = (const adjType Obj)
+	{
+		if (Thing == nullptr)
+			Thing = new type ();
+		*Thing = *Obj.Thing;
+	}
+};
 
 template <class type>
 struct List
 {
-	unsigned int Length = 0;
-	unsigned int Allocated = 0;
-	type *list = nullptr;
-	List(int Count) : Allocated(Count), Length(0)
+	int Length = 0;
+	adjType<type> *list = nullptr;
+	List(int Count) : Length(Count) 
 	{
 		if (Count <= 0)
 			return;
-		list = new type[Count];
-	}
-	~List()
-	{
-		Delete();
+		list = new adjType<type>[Count];
 	}
 	type* operator [] (int Index)
 	{
-		if (Index >= Length || Index < 0)
+		if (Index >= Length)
 		{
 			Fails::Break = true;
 			Fails::BreakCode = -2;
 			return nullptr;
 		}
-		return &list[Index];
+		if (list[Index].Thing == nullptr)
+			list[Index].Thing = new type ();
+		return list[Index].Thing;
 	}
-	void AddToList(type Thing)
+	void AddToList(type* Thing)
 	{
-		if (Length < Allocated)
-		{
-			list[Length] = Thing;
-			Length++;
-			return;
-		}
-		type* Temp = nullptr;
-		if (Allocated > 0)
-		{
-			Temp = new type[Allocated * 2];
-			Allocated *= 2;
-		}
-		else 
-		{
-			Temp = new type[1];
-			Allocated = 1;
-		}
 		for (int i = 0; i < Length; i++)
 		{
-			Temp[i] = list[i];
+			if (list[i].Thing == nullptr)
+			{
+				list[i].Thing = Thing;
+				return;
+			}
 		}
-		Temp[Length] = Thing;
+		adjType<type>* Temp = nullptr;
+		if (Length > 0)
+			Temp = new adjType<type>[Length + 100] {nullptr};
+		else
+			Temp = new adjType<type>[100] {nullptr};
+		for (int i = 0; i < Length; i++)
+		{
+			Temp[i].Thing = list[i].Thing;
+		}
+		Temp[Length].Thing = Thing;
 		delete[](list);
 		list = nullptr;
 		Length++;
@@ -86,38 +79,25 @@ struct List
 		delete[](list);
 		list = nullptr;
 		Length = 0;
-		Allocated = 0;
 	}
-	bool Contains(const type &Thing)
+	bool Contains(type &Thing)
 	{
 		for(int i = 0; i < Length; i++)
 		{
-			if (*list[i] == Thing)
+			if (*list[i].Thing == Thing)
 				return true;
-		}
-		return false;
-	}
-	bool Contains(const type& Thing, unsigned int &Pos)
-	{
-		for (int i = 0; i < Length; i++)
-		{
-			if (list[i] == Thing) 
-			{
-				Pos = i;
-				return true;
-			}
 		}
 		return false;
 	}
 	void RemoveFromList(int Index)
 	{
-		if (Index >= Length || Index < 0)
+		if (list[Index].Thing == nullptr)
 		{
 			Fails::Break = true;
 			Fails::BreakCode = -2;
 			return;
 		}
-		type* Temp = new type[Allocated];
+		adjType<type>* Temp = new adjType<type>[Length - 1];
 		int Obj = 0;
 		for(int i = 0; i < Length; i++)
 		{
@@ -126,22 +106,31 @@ struct List
 			Temp[Obj] = list[i];
 			Obj++;
 		}
+		for (int i = 0; i < Length; i++)
+		{
+			list[i].Delete();
+		}
 		delete[](list);
 		list = Temp;
 		Length--;
 	}
 	void RemoveObjFromList(type& Thing)
 	{
-		RemoveFromList(GetIndex(Thing));
+		for (int i = 0; i < Length; i++)
+		{
+			if (*list[i].Thing == Thing)
+				RemoveFromList(i);
+		}
 	}
 	void Delete()
 	{
-		if (list == nullptr)
-			return;
+		for(int i = 0; i < Length; i++)
+		{
+			list[i].Delete();
+		}
 		delete[](list);
 		list = nullptr;
 		Length = 0;
-		Allocated = 0;
 	}
 	type* ListPtr()
 	{
@@ -149,7 +138,7 @@ struct List
 
 		for(int i = 0; i < Length; i++)
 		{
-			Ret[i] = list[i];
+			Ret[i] = *list[i].Thing;
 		}
 
 		return Ret;
@@ -158,7 +147,16 @@ struct List
 	{
 		for(int i = 0; i < Length; i++)
 		{
-			if (list[i] == Obj)
+			if (*list[i].Thing == Obj)
+				return i;
+		}
+		return -1;
+	}
+	int OpenSlot()
+	{
+		for(int i = 0; i < Length; i++)
+		{
+			if (list[i].Thing = nullptr)
 				return i;
 		}
 		return -1;
@@ -166,9 +164,7 @@ struct List
 	void NewList(int Count)
 	{
 		Delete();
-		list = new type[Count];
-		Allocated = Count;
-		Length = 0;
+		list = new adjType<type>[Count];
 	}
 };
 

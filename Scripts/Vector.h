@@ -192,15 +192,6 @@ struct Vector4
 			return false;
 		return true;
 	}
-	Vector4 operator -()
-	{
-		Vector4 Ret = 0;
-		Ret.x = -x;
-		Ret.y = -y;
-		Ret.z = -z;
-		Ret.w = -w;
-		return Ret;
-	}
 	friend std::ostream& operator << (std::ostream& os, Vector4 const& obj);
 };
 

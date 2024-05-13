@@ -9,16 +9,15 @@ using namespace AObjectDraw;
 
 Camera MainCamera;
 
-static Object* Objects[MAXOBJECTS];
-static unsigned int ObjCount = 0;
-static bool Cstr = false;
+Object* Objects[MAXOBJECTS];
+unsigned int ObjCount = 0;
+unsigned int ObjVAO = 0;
+bool Cstr = false;
 
-static List<LightObj> Lights = 3;
+Vector3 LightPosition = Vector3(0, 0, 0);
 
-static unsigned int ScreenFBO, ScreenDepthStencil, ScreenTexture, ShadowTexture, BackgroundTexture;
+unsigned int ScreenFBO, ScreenTexture, ScreenDepth;
 
-static Object* TextureObj = nullptr;
-static Model SquareModel;
 
 void DeleteAll()
 {
@@ -33,8 +32,6 @@ void DeleteAll()
 			Objects[Obj]->Scripts[i]->Script = nullptr;
 		}
 		Objects[Obj]->Scripts.Delete();
-		delete[](Objects[Obj]->mesh.Vertices);
-		delete[](Objects[Obj]->mesh.Indices);
 		delete(Objects[Obj]);
 		Objects[Obj] = nullptr;
 	}
@@ -73,77 +70,91 @@ namespace AObjectDraw
 					ScrObj->SetObject(Objects[Obj]);
 			}
 		}
-			
-		LoadModel(SquareModel, "Square", "MYOBJ");
 
+		glGenVertexArrays(1, &ObjVAO);
 
-		glBindVertexArray(0);
+		//ScreenQuad->mesh.Active = false;
+		//ScreenQuad->mesh.UI = true;
+		//ScreenQuad->Transform.Translate(Vector3(0, 0, -1));
 
 		glGenFramebuffers(1, &ScreenFBO);
 		glBindFramebuffer(GL_FRAMEBUFFER, ScreenFBO);
-		glGenTextures(1, &ScreenDepthStencil);
+		
 		glGenTextures(1, &ScreenTexture);
-		glGenTextures(1, &ShadowTexture);
-		glGenTextures(1, &BackgroundTexture);
+		glBindTexture(GL_TEXTURE_2D, ScreenTexture);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, ScreenSpace::Width, ScreenSpace::Height, 0, GL_RGBA, GL_FLOAT, nullptr);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, ScreenTexture, 0);
 
-		glBindTexture(GL_TEXTURE_2D, ScreenDepthStencil);
+		glGenTextures(1, &ScreenDepth);
+		glBindTexture(GL_TEXTURE_2D, ScreenDepth);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH24_STENCIL8, ScreenSpace::Width, ScreenSpace::Height, 0, GL_DEPTH_STENCIL, GL_UNSIGNED_INT_24_8, nullptr);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, ScreenDepth, 0);
 
-		glBindTexture(GL_TEXTURE_2D, ScreenTexture);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16, ScreenSpace::Width, ScreenSpace::Height, 0, GL_RGBA, GL_UNSIGNED_INT, nullptr);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		glBindTexture(GL_TEXTURE_2D, ShadowTexture);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16, ScreenSpace::Width, ScreenSpace::Height, 0, GL_RGBA, GL_UNSIGNED_INT, nullptr);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		glBindTexture(GL_TEXTURE_2D, BackgroundTexture);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16, ScreenSpace::Width, ScreenSpace::Height, 0, GL_RGBA, GL_UNSIGNED_INT, nullptr);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, BackgroundTexture, 0);
-		glClearColor(0.8, 0.2, 0, 1);
-		glClear(GL_COLOR_BUFFER_BIT);
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-		TextureObj = new Object(SquareModel);
-		TextureObj->mesh.UI = true;
-		TextureObj->mesh.Active = false;
+		//ScreenQuad->mesh.Texture = ScreenTexture;
 
-		Lights.AddToList(LightObj());
-		Lights[Lights.Length - 1]->Position = Vector3(5, 0, 0);
-		Lights[Lights.Length - 1]->Color = Vector4(1, 0, 0, 1);
-		Lights[Lights.Length - 1]->GenTexture();
-		Lights.AddToList(LightObj());
-		Lights[Lights.Length - 1]->Position = Vector3(-5, 0, 0);
-		Lights[Lights.Length - 1]->Color = Vector4(0, 1, 0, 1);
-		Lights[Lights.Length - 1]->GenTexture();
-		Lights.AddToList(LightObj());
-		Lights[Lights.Length - 1]->Position = Vector3(0, 0, -5);
-		Lights[Lights.Length - 1]->Color = Vector4(0, 0, 1, 1);
-		Lights[Lights.Length - 1]->GenTexture();
+		//TempCube->Transform.Translate(-10, 0, 0);
+		MainCamera.Position = LightPosition;
 	}
 
 	float LightSpeed = 5;
 
 	void Update(Shader& shader)
 	{
-		if (Keys::KeyHeld(GLFW_KEY_LEFT_CONTROL))
-			Lights[0]->Position = MainCamera.Position;
-		if (Keys::KeyHeld(GLFW_KEY_1))
-			MainCamera.Position = Lights[0]->Position;
-		if (Keys::KeyHeld(GLFW_KEY_2))
-			MainCamera.Position = Lights[1]->Position;
-		if (Keys::KeyHeld(GLFW_KEY_3))
-			MainCamera.Position = Lights[2]->Position;
+		if (Keys::KeyHeld(GLFW_KEY_UP))
+			LightPosition.z += LightSpeed * Time::deltaTime;
+		if (Keys::KeyHeld(GLFW_KEY_DOWN))
+			LightPosition.z -= LightSpeed * Time::deltaTime;
+		if (Keys::KeyHeld(GLFW_KEY_RIGHT))
+			LightPosition.x += LightSpeed * Time::deltaTime;
+		if (Keys::KeyHeld(GLFW_KEY_LEFT))
+			LightPosition.x -= LightSpeed * Time::deltaTime;
+		if (Keys::KeyHeld(GLFW_KEY_PAGE_UP))
+			LightPosition.y += LightSpeed * Time::deltaTime;
+		if (Keys::KeyHeld(GLFW_KEY_PAGE_DOWN))
+			LightPosition.y -= LightSpeed * Time::deltaTime;
+		if (Keys::KeyPressed(GLFW_KEY_LEFT_CONTROL))
+			MainCamera.Position = LightPosition;
 
-		RenderAllWithShadows(shader, Vector4(0.75, 0.75, 0.75, 1));
+		glEnable(GL_DEPTH_TEST);
+		glDepthMask(GL_TRUE);
+
+		glClearColor(0.2, 0.3, 0.3, 1);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+		RenderScene(shader, "BasicNoTextureShader", "BasicTextureShader");
+
+
+		//glEnable(GL_STENCIL_TEST);
+		//glDepthMask(GL_FALSE);
+		//glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
+
+		//glStencilFunc(GL_ALWAYS, 1, 0xFF);
+		//glStencilOpSeparate(GL_FRONT, GL_KEEP, GL_DECR, GL_KEEP);
+		//glStencilOpSeparate(GL_BACK, GL_KEEP, GL_INCR, GL_KEEP);
+
+		//UpdateEdgeData();
+		//GenerateShadowData(LightPosition);
+		//RenderStretchScene(shader);
+		//RenderLight(shader, LightPosition);
+
+		//glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+
+		//glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+		//glStencilFunc(GL_EQUAL, 0xFF, 0xFF);
+		//glEnable(GL_BLEND);
+		//glBlendEquation(GL_FUNC_ADD);
+		//glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
+		//glDepthMask(GL_TRUE);
+		//glClear(GL_DEPTH_BUFFER_BIT);
+
+		//RenderShadows(shader);
 	}
 
 	void End()
@@ -151,120 +162,9 @@ namespace AObjectDraw
 		DeleteAll();
 
 		delete[](PerspectiveMat);
-		delete[](OrthographicMat);	
-
-		Lights.Delete();
-		SquareModel.DeleteModel();
+		delete[](OrthographicMat);
+		//ClearShadowEdges();
 	}
-}
-
-void RenderAllWithShadows(Shader& shader, Vector4 ShadowColor)
-{
-	//Bind framebuffer and textures
-	glBindFramebuffer(GL_FRAMEBUFFER, ScreenFBO);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, ScreenTexture, 0);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, ScreenDepthStencil, 0);
-
-	//Enable/disable anything that could affect drawing
-	glEnable(GL_DEPTH_TEST);
-	glDisable(GL_STENCIL_TEST);
-	glDisable(GL_BLEND);
-	glDepthMask(GL_TRUE);
-	glDepthFunc(GL_LESS);
-
-	//Set clear modes and clear main texture
-	glClearColor(0, 0, 0, 0);
-	glClearStencil(0x00);
-	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_FALSE);
-
-	//Render and fill depth buffer
-	RenderScene(shader, "BasicNoTextureShader", "BasicTextureShader");
-
-	//Set depth modes
-	glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-	glDepthMask(GL_FALSE);
-	glDepthFunc(GL_LEQUAL);
-
-	//Render what things look like with shadows
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, ShadowTexture, 0);
-	glClearColor(0, 0, 0, 0);
-	glClear(GL_COLOR_BUFFER_BIT);
-	RenderShadows(shader, ShadowColor);
-
-	//Draw all light textures
-	glEnable(GL_STENCIL_TEST);
-	for (int i = 0; i < Lights.Length; i++)
-	{
-		//Set light teture active
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, Lights[i]->Texture, 0);
-		glClearColor(0, 0, 0, 0);
-		glClear(GL_COLOR_BUFFER_BIT);
-
-		//Set depth and color stuff
-		glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
-
-		//Enable and set stencil test mode
-		glStencilFunc(GL_ALWAYS, 1, 0xFF);
-		glStencilOpSeparate(GL_FRONT, GL_KEEP, GL_DECR_WRAP, GL_KEEP);
-		glStencilOpSeparate(GL_BACK, GL_KEEP, GL_INCR_WRAP, GL_KEEP);
-		glClear(GL_STENCIL_BUFFER_BIT);
-
-		//Render light volume to fill stencil buffer
-		RenderShadowVolumes(shader, Lights[i]->Position);
-
-		//Allow drawing to screen and adjust stencil testing
-		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
-		glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
-		glStencilFunc(GL_EQUAL, 0, 0xFF);
-
-		//Render what will be lit up by light
-		RenderShadows(shader, Lights[i]->Color);
-	}
-
-	//So that things can draw fine
-	glDisable(GL_STENCIL_TEST);
-	glDisable(GL_DEPTH_TEST);
-
-	//Combine and draw lights to a single texture
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, Lights[0]->Texture, 0);
-	for (int i = 1; i < Lights.Length; i++)
-	{
-		//Add light colors
-		glEnable(GL_BLEND);
-		glBlendEquation(GL_FUNC_ADD);
-		glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);
-		TextureObj->mesh.Texture = Lights[i]->Texture;
-		RenderSingleObj(shader, TextureObj, "BasicNoTextureShader", "BasicTextureShader");
-	}
-
-	//Prepare to draw screen
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glDisable(GL_BLEND);
-	glClearColor(0, 0, 0, 0);
-	glClear(GL_COLOR_BUFFER_BIT);
-
-	//Render the base screen
-	TextureObj->mesh.Texture = ScreenTexture;
-	RenderSingleObj(shader, TextureObj, "BasicNoTextureShader", "BasicTextureShader");
-
-	glEnable(GL_BLEND);
-	glBlendEquation(GL_FUNC_ADD);
-	glBlendFuncSeparate(GL_DST_COLOR, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE);
-	TextureObj->mesh.Texture = Lights[0]->Texture;
-	RenderSingleObj(shader, TextureObj, "BasicNoTextureShader", "BasicTextureShader");
-
-	//Remove shadow colors
-	glBlendEquationSeparate(GL_FUNC_REVERSE_SUBTRACT, GL_FUNC_ADD);
-	glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_ONE);
-	TextureObj->mesh.Texture = ShadowTexture;
-	RenderSingleObj(shader, TextureObj, "BasicNoTextureShader", "BasicTextureShader");
-
-	glBlendEquation(GL_FUNC_ADD);
-	glBlendFunc(GL_ONE_MINUS_DST_ALPHA, GL_ONE);
-	TextureObj->mesh.Texture = BackgroundTexture;
-	RenderSingleObj(shader, TextureObj, "BasicNoTextureShader", "BasicTextureShader");
 }
 
 void DeleteObj(Object *&Obj)
@@ -302,16 +202,14 @@ void SetToTransform(Object* Obj)
 	ObjCount++;
 }
 
-void CreateModelMat(glm::mat4& PosMat, glm::mat4& RotMat, glm::mat4& ScaleMat, transform &Transform)
+void CreateModelMat(glm::mat4& Mat, Vector3 Position, Vector3 Rotation, Vector3 Scale)
 {
-	PosMat = glm::mat4(1);
-	RotMat = glm::mat4(1);
-	ScaleMat = glm::mat4(1);
-	PosMat = glm::translate(PosMat, glm::vec3(Transform.Position.x, Transform.Position.y, Transform.Position.z));
-	RotMat = glm::rotate(RotMat, glm::radians<float>(Transform.Rotation.x), glm::vec3(1, 0, 0));
-	RotMat = glm::rotate(RotMat, glm::radians<float>(Transform.Rotation.y), glm::vec3(0, 1, 0));
-	RotMat = glm::rotate(RotMat, glm::radians<float>(Transform.Rotation.z), glm::vec3(0, 0, 1));
-	ScaleMat = glm::scale(ScaleMat, glm::vec3(Transform.Scale.x, Transform.Scale.y, Transform.Scale.z));
+	Mat = glm::mat4(1);
+	Mat = glm::translate(Mat, glm::vec3(Position.x, Position.y, Position.z));
+	Mat = glm::rotate(Mat, glm::radians<float>(Rotation.x), glm::vec3(1, 0, 0));
+	Mat = glm::rotate(Mat, glm::radians<float>(Rotation.y), glm::vec3(0, 1, 0));
+	Mat = glm::rotate(Mat, glm::radians<float>(Rotation.z), glm::vec3(0, 0, 1));
+	Mat = glm::scale(Mat, glm::vec3(Scale.x, Scale.y, Scale.z));
 }
 
 void CreateCamMat(glm::mat4& Mat, Vector3 Position, Vector3 Rotation)
@@ -366,13 +264,9 @@ void CreateOrthographicMat()
 	};
 }
 
-void RenderCustomObj(Shader &shader, unsigned int VAO, unsigned int VBO, unsigned int EBO, unsigned int EBOCount, Vector3 MeshColor, transform& Transform)
+void RenderCustomObj(Shader &shader, unsigned int VAO, unsigned int VBO, unsigned int EBO, unsigned int EBOCount, Vector3 MeshColor, transform Transform)
 {
 	shader.SetMat4("perp", PerspectiveMat);
-
-	glm::mat4 ObjPos;
-	glm::mat4 ObjRot;
-	glm::mat4 ObjScale;
 
 	Vector3 Pos = MainCamera.Position;
 	Vector3 Rot = MainCamera.RotToVec();
@@ -383,9 +277,8 @@ void RenderCustomObj(Shader &shader, unsigned int VAO, unsigned int VBO, unsigne
 	Pos = Transform.Position;
 	Rot = Transform.Rotation;
 	Scale = Transform.Scale;
-	CreateModelMat(ObjPos, ObjRot, ObjScale, Transform);
-	ObjPos = ObjPos * ObjRot * ObjScale;
-	shader.SetMat4("transform", glm::value_ptr(ObjPos));
+	CreateModelMat(ObjTransformMat, Pos / ScreenSpace::gridHeight, Rot, Scale / ScreenSpace::gridHeight);
+	shader.SetMat4("transform", glm::value_ptr(ObjTransformMat));
 
 	shader.SetVec3("MeshColor", MeshColor);
 
@@ -406,10 +299,6 @@ void RenderCustomObj(Shader &shader, unsigned int VAO, unsigned int VBO, unsigne
 
 void RenderSingleObj(Shader& shader, Object*& ObjToDraw, std::string NoTextureShader, std::string TextureShader)
 {
-	glm::mat4 ObjPos;
-	glm::mat4 ObjRot;
-	glm::mat4 ObjScale;
-
 	Vector3 Pos = MainCamera.Position;
 	Vector3 Rot = MainCamera.RotToVec();
 	Vector3 Scale;
@@ -417,7 +306,8 @@ void RenderSingleObj(Shader& shader, Object*& ObjToDraw, std::string NoTextureSh
 
 	int Obj = ObjToDraw->mesh.Index;
 
-	glBindVertexArray(Objects[Obj]->mesh.VAO);
+	glBindVertexArray(ObjToDraw->mesh.VAO);
+
 
 	if (Objects[Obj]->mesh.Texture == -1)
 	{
@@ -445,123 +335,112 @@ void RenderSingleObj(Shader& shader, Object*& ObjToDraw, std::string NoTextureSh
 	Pos = Objects[Obj]->Transform.Position();
 	Rot = Objects[Obj]->Transform.Rotation();
 	Scale = Objects[Obj]->Transform.Scale();
-	CreateModelMat(ObjPos, ObjRot, ObjScale, Objects[Obj]->Transform.T);
-	ObjPos = ObjPos * ObjRot * ObjScale;
-	shader.SetMat4("transform", glm::value_ptr(ObjPos));
+	CreateModelMat(ObjTransformMat, Pos / (ScreenSpace::gridHeight), Rot, Scale / ScreenSpace::gridHeight);
+	shader.SetMat4("transform", glm::value_ptr(ObjTransformMat));
 	shader.SetVec3("MeshColor", Objects[Obj]->mesh.Color);
-	glDrawArrays(GL_TRIANGLES, 0, Objects[Obj]->mesh.IndiceCount);
+	glDrawElements(GL_TRIANGLES, Objects[Obj]->mesh.IndiceCount, GL_UNSIGNED_INT, (void*)(0));
+	glBindVertexArray(0);
 	return;
 }
 
-void RenderShadowVolumes(Shader &shader, Vector3 LightPos)
+/*
+void RenderShadowScene(Shader &shader, LightPoint *&Light)
 {
-	shader.Use(Shading::ShaderPrograms["StretchedShader"]);
+	glClear(GL_DEPTH_BUFFER_BIT);
 
-	glm::mat4 ObjPos;
-	glm::mat4 ObjRot;
-	glm::mat4 ObjScale;
+	shader.Use(Shading::ShaderPrograms["SShadowingDepthTextureShader"]);
+	shader.SetMat4("perp", Light->CurrentPerpMat);
 
-	Vector3 Pos = MainCamera.Position;
-	Vector3 Rot = MainCamera.RotToVec();
+	Vector3 Pos = Light->Position;
+	Vector3 Rot = Light->Rotation;
 	Vector3 Scale;
+
 	CreateCamMat(ViewMat, -Pos, -Rot);
-	shader.SetMat4("perp", PerspectiveMat);
 	shader.SetMat4("view", glm::value_ptr(ViewMat));
-	shader.SetVec3("LightPos", LightPos);
-	shader.SetVec3("CameraPos", MainCamera.Position);
-	shader.SetFloat("LED", LIGHTEXTENDDISTANCE);
-	for (int Obj = 0; Obj < MAXOBJECTS; Obj++)
+
+	glBindVertexArray(StaticVAO.VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, StaticVAO.VBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, StaticVAO.EBO);
+	for (int GameObj = 0; GameObj < STATICGOBJCOUNT; GameObj++)
 	{
-		if (Objects[Obj] != nullptr)
+		int Start = StaticVAO.EBOStartPoints[GameObj];
+		int End = StaticVAO.EBOStartPoints[GameObj + 1];
+		int Count = 0;
+		for (int Obj = 0; Obj < MAXOBJECTS; Obj++)
 		{
-			if (Objects[Obj]->Scripts.Length > 0)
-				RunScripts(Obj);
-			if (Objects[Obj]->Children.Length > 0 && Objects[Obj]->BranchHead)
-				Objects[Obj]->UpdateChildren();
+			if (Count >= GameObjects.Counts[GameObj])
+				break;
+			if (GameObjects.Objects[Obj] == nullptr)
+				continue;
+			if (GameObjects.Objects[Obj]->mesh.GObj != GameObj)
+				continue;
+			if (!GameObjects.Objects[Obj]->mesh.Active)
+			{
+				Count++;
+				continue;
+			}
+
+			if (GameObjects.Objects[Obj]->mesh.UI)
+			{
+				Count++;
+				continue;
+			}
+
+			Pos = GameObjects.Objects[Obj]->Transform.Position();
+			Rot = GameObjects.Objects[Obj]->Transform.Rotation();
+			Scale = GameObjects.Objects[Obj]->Transform.Scale();
+
+			CreateModelMat(ObjTransformMat, Pos / ScreenSpace::gridHeight, Rot, Scale / ScreenSpace::gridHeight);
+			shader.SetMat4("transform", glm::value_ptr(ObjTransformMat));
+			glDrawElements(GL_TRIANGLES, End - Start, GL_UNSIGNED_INT, (void*)(Start * sizeof(GLuint)));
+			Count++;
 		}
 	}
 
-	int Count = 0;
-	for (int Obj = 0; Obj < MAXOBJECTS; Obj++)
+	glBindVertexArray(DynamicVAO.VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, DynamicVAO.VBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, DynamicVAO.EBO);
+	for (int GameObj = STATICGOBJCOUNT; GameObj < GAMEOBJECTCOUNT; GameObj++)
 	{
-		if (Objects[Obj] == nullptr)
-			continue;
-		if (!Objects[Obj]->mesh.Active)
-			return;
-		if (Count > ObjCount)
-			break;
-		Count++;
-
-		glBindVertexArray(Objects[Obj]->mesh.VAO);
-
-		Pos = Objects[Obj]->Transform.Position();
-		Rot = Objects[Obj]->Transform.Rotation();
-		Scale = Objects[Obj]->Transform.Scale();
-		CreateModelMat(ObjPos, ObjRot, ObjScale, Objects[Obj]->Transform.T);
-		shader.SetMat4("PosMat", glm::value_ptr(ObjPos));
-		shader.SetMat4("RotMat", glm::value_ptr(ObjRot));
-		shader.SetMat4("ScaleMat", glm::value_ptr(ObjScale));
-		glDrawArrays(GL_TRIANGLES, 0, Objects[Obj]->mesh.IndiceCount);
-	}
-}
-
-void RenderShadows(Shader& shader, Vector4 LightColor)
-{
-	shader.Use(Shading::ShaderPrograms["SSDarkenShader"]);
-
-	glm::mat4 ObjPos;
-	glm::mat4 ObjRot;
-	glm::mat4 ObjScale;
-
-	Vector3 Pos = MainCamera.Position;
-	Vector3 Rot = MainCamera.RotToVec();
-	Vector3 Scale;
-	CreateCamMat(ViewMat, -Pos, -Rot);
-	shader.SetMat4("perp", PerspectiveMat);
-	shader.SetMat4("view", glm::value_ptr(ViewMat));
-	shader.SetVec4("LightColor", LightColor);
-
-	for (int Obj = 0; Obj < MAXOBJECTS; Obj++)
-	{
-		if (Objects[Obj] != nullptr)
+		int Start = DynamicVAO.EBOStartPoints[GameObj - STATICGOBJCOUNT];
+		int End = DynamicVAO.EBOStartPoints[GameObj - STATICGOBJCOUNT + 1];
+		int Count = 0;
+		for (int Obj = 0; Obj < MAXOBJECTS; Obj++)
 		{
-			if (Objects[Obj]->Scripts.Length > 0)
-				RunScripts(Obj);
-			if (Objects[Obj]->Children.Length > 0 && Objects[Obj]->BranchHead)
-				Objects[Obj]->UpdateChildren();
+			if (Count >= GameObjects.Counts[GameObj])
+				break;
+			if (GameObjects.Objects[Obj] == nullptr)
+				continue;
+			if (GameObjects.Objects[Obj]->mesh.GObj != GameObj)
+				continue;
+
+			if (GameObjects.Objects[Obj]->mesh.UI)
+			{
+				Count++;
+				continue;
+			}
+
+			int VBOSize = (DynamicVAO.VBOStartPoints[GameObj - STATICGOBJCOUNT + 1] - DynamicVAO.VBOStartPoints[GameObj - STATICGOBJCOUNT]) * sizeof(float);
+			glBufferSubData(GL_ARRAY_BUFFER, DynamicVAO.VBOStartPoints[GameObj - STATICGOBJCOUNT], VBOSize, GameObjects.Objects[Obj]->mesh.Vertices);
+
+			int EBOSize = (DynamicVAO.EBOStartPoints[GameObj - STATICGOBJCOUNT + 1] - DynamicVAO.EBOStartPoints[GameObj - STATICGOBJCOUNT]) * sizeof(int);
+			glBufferSubData(GL_ELEMENT_ARRAY_BUFFER, DynamicVAO.EBOStartPoints[GameObj - STATICGOBJCOUNT], EBOSize, GameObjects.Objects[Obj]->mesh.Indices);
+
+			Pos = GameObjects.Objects[Obj]->Transform.Position();
+			Rot = GameObjects.Objects[Obj]->Transform.Rotation();
+			Scale = GameObjects.Objects[Obj]->Transform.Scale();
+			CreateModelMat(ObjTransformMat, Pos / (ScreenSpace::gridHeight), Rot, Scale / ScreenSpace::gridHeight);
+			shader.SetMat4("transform", glm::value_ptr(ObjTransformMat));
+			glDrawElements(GL_TRIANGLES, End - Start, GL_UNSIGNED_INT, (void*)(Start * sizeof(GLuint)));
+			Count++;
 		}
 	}
-
-	int Count = 0;
-	for (int Obj = 0; Obj < MAXOBJECTS; Obj++)
-	{
-		if (Objects[Obj] == nullptr)
-			continue;
-		if (!Objects[Obj]->mesh.Active)
-			return;
-		if (Count > ObjCount)
-			break;
-		Count++;
-
-		glBindVertexArray(Objects[Obj]->mesh.VAO);
-
-		Pos = Objects[Obj]->Transform.Position();
-		Rot = Objects[Obj]->Transform.Rotation();
-		Scale = Objects[Obj]->Transform.Scale();
-		CreateModelMat(ObjPos, ObjRot, ObjScale, Objects[Obj]->Transform.T);
-		CreateModelMat(ObjPos, ObjRot, ObjScale, Objects[Obj]->Transform.T);
-		ObjPos = ObjPos * ObjRot * ObjScale;
-		shader.SetMat4("transform", glm::value_ptr(ObjPos));
-		glDrawArrays(GL_TRIANGLES, 0, Objects[Obj]->mesh.IndiceCount);
-	}
+	glBindVertexArray(0);
 }
+*/
 
 void RenderScene(Shader& shader, std::string NoTextureShader, std::string TextureShader)
 {
-	glm::mat4 ObjPos;
-	glm::mat4 ObjRot;
-	glm::mat4 ObjScale;
-
 	Vector3 Pos = MainCamera.Position;
 	Vector3 Rot = MainCamera.RotToVec();
 	Vector3 Scale;
@@ -585,9 +464,6 @@ void RenderScene(Shader& shader, std::string NoTextureShader, std::string Textur
 			continue;
 		if (!Objects[Obj]->mesh.Active)
 			return;
-		if (Count > ObjCount)
-			break;
-		Count++;
 
 		glBindVertexArray(Objects[Obj]->mesh.VAO);
 
@@ -617,10 +493,9 @@ void RenderScene(Shader& shader, std::string NoTextureShader, std::string Textur
 		Pos = Objects[Obj]->Transform.Position();
 		Rot = Objects[Obj]->Transform.Rotation();
 		Scale = Objects[Obj]->Transform.Scale();
-		CreateModelMat(ObjPos, ObjRot, ObjScale, Objects[Obj]->Transform.T);
-		ObjPos = ObjPos * ObjRot * ObjScale;
-		shader.SetMat4("transform", glm::value_ptr(ObjPos));
+		CreateModelMat(ObjTransformMat, Pos / (ScreenSpace::gridHeight), Rot, Scale / ScreenSpace::gridHeight);
+		shader.SetMat4("transform", glm::value_ptr(ObjTransformMat));
 		shader.SetVec3("MeshColor", Objects[Obj]->mesh.Color);
-		glDrawArrays(GL_TRIANGLES, 0, Objects[Obj]->mesh.IndiceCount);
+		glDrawElements(GL_TRIANGLES, Objects[Obj]->mesh.IndiceCount, GL_UNSIGNED_INT, (void*)(0));
 	}
 }

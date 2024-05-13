@@ -79,20 +79,6 @@ struct LoadedModel
 	unsigned int IndiceCount = 0;
 	std::string Name;
 };
-struct Edge
-{
-	Vector3 Vert1;
-	Vector3 Vert2;
-	Vector3 Normal;
-	bool operator == (const Edge& Obj)
-	{
-		if ((Vert1 == Obj.Vert1 && Vert2 == Obj.Vert2) || (Vert2 == Obj.Vert1 && Vert1 == Obj.Vert2))
-			return true;
-		return false;
-	}
-	Edge(Vector3 vec1, Vector3 vec2, Vector3 vec3) : Vert1(vec1), Vert2(vec2), Normal(vec3) {}
-	Edge() : Vert1(), Vert2(), Normal() {}
-};
 
 #endif
 #endif

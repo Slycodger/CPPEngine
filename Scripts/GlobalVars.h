@@ -6,7 +6,6 @@
 #ifndef GLOBALVARS
 #define GLOBALVARS
 #include <map>
-#include <iostream>
 namespace ScreenSpace
 {
 	extern float yGridScale;

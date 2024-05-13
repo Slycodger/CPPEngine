@@ -1,10 +1,11 @@
 #version 450 core
 
-out vec4 OutColor;
-
-in vec4 Color;
+out vec4 Color;
 
 void main()
 {
-	OutColor = Color;
+	if(gl_FrontFacing)
+		Color = vec4(0, 1, 0, 1);
+	else
+		Color = vec4(1, 0, 0, 1);
 }

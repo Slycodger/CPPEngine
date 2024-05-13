@@ -215,11 +215,6 @@ namespace GUIText
         //DrawBitmap(shader);
     }
 
-    void End()
-    {
-        Char.DeleteModel();
-    }
-
     void CreateText(std::string Text, float TextSize, Vector2 BoxSize, float LineJump, Vector3 Color, List<Object*> &ObjList, bool UIElement, Object*& TextBox)
     {
         Vector3 ObjPos;
@@ -249,7 +244,7 @@ namespace GUIText
                 continue;
             }
 
-            ObjList.AddToList(new Object(Char));
+            ObjList.AddToList(new Object*(new Object(Char)));
             (*ObjList[ObjList.Length - 1])->mesh.Texture = Bitmap;
             if (UIElement)
                 (*ObjList[ObjList.Length - 1])->mesh.UI = true;

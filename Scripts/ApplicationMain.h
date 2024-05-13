@@ -17,7 +17,6 @@
 #include <chrono>
 #include "Mouse.h"
 #include <map>
-#include "AnimationKeying.h"
 
 #endif
 
