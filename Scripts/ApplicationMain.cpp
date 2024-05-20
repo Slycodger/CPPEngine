@@ -4,21 +4,8 @@
 #define APPLICATIONMAINMAIN
 #include "ApplicationMain.h"
 
-const char* SShadowingShader[2][3][2] =
-{
-	{{"SShadowingBasicVert", VERTFILE}, {"SShadowingBasicFrag", FRAGFILE}, {"", GEOMFILE}},
-	{{"SShadowingNoTextureVert", VERTFILE}, {"SShadowingNoTextureFrag", FRAGFILE}, {"SShadowingNoTextureGeom", GEOMFILE}}
-};
-const char* FractalShader[2][2] =
-{
-	{"FractalVert", VERTFILE}, {"FractalFrag", FRAGFILE}
-};
-
-
-
 
 using namespace ScreenSpace;
-//using namespace Mouse;
 using namespace Time;
 using namespace Fails;
 using namespace App;
@@ -32,11 +19,8 @@ void WindowMoveCallBack(GLFWwindow *window, int x, int y);
 
 namespace ScreenSpace
 {
-	float yGridScale;
-	float xGridScale;
 	float Width = 1280;
 	float Height = 720;
-	float gridHeight = 1;
 	int WindowXPos;
 	int WindowYPos;
 }
@@ -76,30 +60,10 @@ int main()
 
 	Shader myShader;
 	std::map<std::string, std::string> NewShaders;
-	for (int Program = 0; Program < 2; Program++)
+
 	{
-		for (int Shader = 0; Shader < 3; Shader++)
-		{
-			NewShaders.insert({ SShadowingShader[Program][Shader][1], SShadowingShader[Program][Shader][0]});
-		}
-		unsigned int TempShader;
-		myShader.CreateShader(NewShaders, TempShader);
-		std::string ShaderName;
-		switch (Program)
-		{
-		case 0:
-			ShaderName = "SShadowingBasicShader";
-			break;
-		case 1:
-			ShaderName = "SShadowingNoTextureShader";
-			break;
-		}
-		ShaderPrograms.insert({ ShaderName, TempShader});
-		NewShaders.clear();
-	}
-	{
-		NewShaders.insert({ FractalShader[0][1], FractalShader[0][0] });
-		NewShaders.insert({ FractalShader[1][1], FractalShader[1][0] });
+		NewShaders.insert({ VERTFILE, "FractalVert"});
+		NewShaders.insert({ FRAGFILE, "FractalFrag" });
 		unsigned int TempShader;
 		myShader.CreateShader(NewShaders, TempShader);
 		ShaderPrograms.insert({ "FractalShader", TempShader });
@@ -127,31 +91,6 @@ int main()
 		unsigned int TempShader;
 		myShader.CreateShader(NewShaders, TempShader);
 		ShaderPrograms.insert({ "BasicNoTextureShader", TempShader });
-		NewShaders.clear();
-	}
-	{
-		NewShaders.insert({ VERTFILE, "SSDarkenVert" });
-		NewShaders.insert({ FRAGFILE, "SSDarkenFrag" });
-		unsigned int TempShader;
-		myShader.CreateShader(NewShaders, TempShader);
-		ShaderPrograms.insert({ "SSDarkenShader", TempShader });
-		NewShaders.clear();
-	}
-	{
-		NewShaders.insert({ VERTFILE, "EShadowsVert" });
-		NewShaders.insert({ FRAGFILE, "EShadowsFrag" });
-		unsigned int TempShader;
-		myShader.CreateShader(NewShaders, TempShader);
-		ShaderPrograms.insert({ "EdgeShader", TempShader });
-		NewShaders.clear();
-	}
-	{
-		NewShaders.insert({ VERTFILE, "SShadowsVert"});
-		NewShaders.insert({ FRAGFILE, "SShadowsFrag"});
-		NewShaders.insert({ GEOMFILE, "SShadowsGeom"});
-		unsigned int TempShader;
-		myShader.CreateShader(NewShaders, TempShader);
-		ShaderPrograms.insert({ "StretchedShader", TempShader });
 		NewShaders.clear();
 	}
 
@@ -196,7 +135,6 @@ int main()
 			break;
 		}
 
-		//Call update functions here
 		KeyPresses::Update();
 
 		//Keycallback
@@ -261,8 +199,8 @@ void MouseMoveCallback(GLFWwindow* window, double xpos, double ypos)
 	int width;
 	int height;
 	glfwGetWindowSize(window, &width, &height);
-	ActiveMouse.Movement.x = xpos / width * xGridScale;
-	ActiveMouse.Movement.y = ypos / height * yGridScale;
+	ActiveMouse.Movement.x = xpos / width;
+	ActiveMouse.Movement.y = ypos / height;
 	ActiveMouse.Pos.x = xpos;
 	ActiveMouse.Pos.y = ypos;
 }
@@ -306,8 +244,6 @@ int StartOpenGL()
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 	glEnable(GL_BLEND);
-	yGridScale = gridHeight;
-	xGridScale = ((float)Width / Height) * yGridScale;
 	return 0;
 }
 

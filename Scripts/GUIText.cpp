@@ -32,13 +32,9 @@ namespace GUIText
     unsigned int Bitmap;
     unsigned int FBO;
 
-    glm::mat4 ViewportScale = glm::mat4(1);
 
     void CreateBitmap(float Definition, float ScreenScale, int TexRes, Shader &shader, float TextScale, float BitXOff, float BitYOff)
     {
-        ViewportScale = glm::scale(ViewportScale, glm::vec3(1 / ScreenSpace::xGridScale, 1 / ScreenSpace::yGridScale, 1));
-
-
         FT_Library FontLibrary;
         if (FT_Init_FreeType(&FontLibrary))
         {
@@ -258,11 +254,11 @@ namespace GUIText
 
             float Verts[] =
             {
-                //Pos                    //UV                    //Color
+                //Pos                                   //UV                    //Color
                 ch.Pos.x + ch.Bearing.x, ch.Pos.y, 0,   ch.TR.x, ch.TR.y,         Color.x, Color.y, Color.z, 1,
                 ch.Pos.x + ch.Bearing.x, 0, 0,          ch.TR.x, ch.BL.y,         Color.x, Color.y, Color.z, 1,
-                ch.Bearing.x, ch.Pos.y, 0,          ch.BL.x, ch.TR.y,         Color.x, Color.y, Color.z, 1,
-                ch.Bearing.x, 0, 0,                 ch.BL.x,  ch.BL.y,        Color.x, Color.y, Color.z, 1
+                ch.Bearing.x, ch.Pos.y, 0,              ch.BL.x, ch.TR.y,         Color.x, Color.y, Color.z, 1,
+                ch.Bearing.x, 0, 0,                     ch.BL.x,  ch.BL.y,        Color.x, Color.y, Color.z, 1
             };
             for(int i = 0; i < 4 * VERTLENGTH; i++)
             {

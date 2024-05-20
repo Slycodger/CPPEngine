@@ -3,28 +3,23 @@
 */
 #define DRAWINGPADMAIN
 #include "DrawingPad.h"
-void CreateSphere(int Define, float Scale, unsigned int& SVBO, unsigned int& SEBO);
 
 Model CubeModel;
 
 namespace DrawingPad
 {
 	float Speed = 10;
-	float RotSpeed = 20;
+	float RotSpeed = 60;
 	List<Object*> Objects = 100;
 	Object* Floor = nullptr;
 	Object* Cube = nullptr;
-	Ray ray = Ray(Vector3(0,0,-1));
-
-	//Object* Text = new Object(0);
-	//TextBox* TextScript = nullptr;
 	
 
 	void Start()
 	{
 		LoadModel(CubeModel, "Cube", "MYOBJ");
 		Cube = new Object(CubeModel);
-		Cube->Transform.Scale(0.02);
+		Cube->Transform.Scale(0.01);
 		for(int i = 0; i < 100; i++)
 		{
 			Objects.AddToList(new Object*(new Object(CubeModel)));
@@ -33,14 +28,10 @@ namespace DrawingPad
 		Floor = new Object(CubeModel);
 		Floor->Transform.T.Position = Vector3(0, -20, 0);
 		Floor->Transform.Scale(50, 1, 50);
-
-		//TextScript = new TextBox;
-	//	Text->AddScript((void*)TextScript);
 	}
 	void Update(GLFWwindow* window)
 	{
-		ray.RayDirection = MainCamera.DirectionFacing();
-		Cube->Transform.T.Position = MainCamera.Position + ray.RayDirection;
+		Cube->Transform.T.Position = MainCamera.Position + MainCamera.DirectionFacing();
 
 		if(Keys::KeyHeld(GLFW_KEY_W))
 		{
@@ -66,12 +57,10 @@ namespace DrawingPad
 		{
 			MainCamera.Translate(0, -Speed * Time::deltaTime, 0);
 		}
-		if(Keys::KeyPressed(GLFW_KEY_HOME))
-		{
-			MainCamera.Position = Vector3(0, 0, 0);
-			MainCamera.SetRotation(Vector3(-90, 0, 0));
-		}
-
+		if(Keys::KeyHeld(GLFW_KEY_PAGE_UP))
+			MainCamera.ChangePerpMat(0, 15 * Time::deltaTime, 0, 0);
+		if (Keys::KeyHeld(GLFW_KEY_PAGE_DOWN))
+			MainCamera.ChangePerpMat(0, -15 * Time::deltaTime, 0, 0);
 
 		if(Keys::KeyPressed(GLFW_KEY_RIGHT_SHIFT))
 		{

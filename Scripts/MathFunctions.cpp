@@ -1,8 +1,6 @@
 #include "MathFunctions.h"
 #include <math.h>
 
-const float PI = 3.141592654;
-const float DegToRad = PI / 180;
 Vector3 CrossProduct(Vector3 Vec1, Vector3 Vec2)
 {
 	Vector3 Output;

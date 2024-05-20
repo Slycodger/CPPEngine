@@ -20,14 +20,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glad\src\glad.c" />
-    <ClCompile Include="Scripts\Constants.cpp" />
+    <ClCompile Include="Scripts\Camera.cpp" />
     <ClCompile Include="Scripts\ModelLoading.cpp" />
     <ClCompile Include="Scripts\AObjectDraw.cpp" />
     <ClCompile Include="Scripts\ApplicationMain.cpp" />
     <ClCompile Include="Scripts\DrawingPad.cpp" />
     <ClCompile Include="Scripts\GUIText.cpp" />
     <ClCompile Include="Scripts\KeyPresses.cpp" />
-    <ClCompile Include="Scripts\LightingMain.cpp" />
     <ClCompile Include="Scripts\MathFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -41,12 +40,8 @@
     <None Include="Shaders\BasicNoTextureFrag.frag" />
     <None Include="Shaders\BasicNoTextureVert.vert" />
     <None Include="Shaders\BasicVert.vert" />
-    <None Include="Shaders\EShadowsFrag.frag" />
-    <None Include="Shaders\EShadowsVert.vert" />
     <None Include="Shaders\FractalFrag.frag" />
     <None Include="Shaders\FractalVert.vert" />
-    <None Include="Shaders\SSDarkenFrag.frag" />
-    <None Include="Shaders\SSDarkenVert.vert" />
     <None Include="Shaders\WhiteSpaceFrag.frag" />
     <None Include="Shaders\WhiteSpaceVert.vert" />
     <None Include="Shaders\SMappingDepthTextureFrag.frag" />
@@ -55,21 +50,11 @@
     <None Include="Shaders\SMappingBasicFrag.frag" />
     <None Include="Shaders\SMappingNoTextureVert.vert" />
     <None Include="Shaders\SMappingBasicVert.vert" />
-    <None Include="Shaders\SShadowsGeom.geom" />
-    <None Include="Shaders\SShadowingBasicVert.vert" />
-    <None Include="Shaders\SShadowingBasicFrag.frag" />
-    <None Include="Shaders\SShadowingNoTextureFrag.frag" />
-    <None Include="Shaders\SShadowingNoTextureGeom.geom" />
-    <None Include="Shaders\SShadowingNoTextureVert.vert" />
-    <None Include="Shaders\GenerateShadowEdges.comp" />
-    <None Include="Shaders\SShadowsFrag.frag" />
-    <None Include="Shaders\SShadowsVert.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ft2build.h" />
     <ClInclude Include="Scripts\AObjectDraw.h" />
     <ClInclude Include="Scripts\ApplicationMain.h" />
-    <ClInclude Include="Scripts\Button.h" />
     <ClInclude Include="Scripts\Camera.h" />
     <ClInclude Include="Scripts\Constants.h" />
     <ClInclude Include="Scripts\DrawingPad.h" />
@@ -79,13 +64,10 @@
     <ClInclude Include="Scripts\GUIText.h" />
     <ClInclude Include="Scripts\IntializeShaders.h" />
     <ClInclude Include="Scripts\KeyPresses.h" />
-    <ClInclude Include="Scripts\LightingMain.h" />
-    <ClInclude Include="Scripts\Line.h" />
     <ClInclude Include="Scripts\List.h" />
     <ClInclude Include="Scripts\MathFunctions.h" />
     <ClInclude Include="Scripts\Mouse.h" />
     <ClInclude Include="Scripts\ObjectClasses.h" />
-    <ClInclude Include="Scripts\Raycasting.h" />
     <ClInclude Include="Scripts\ModelLoading.h" />
     <ClInclude Include="Scripts\Vector.h" />
   </ItemGroup>
@@ -143,14 +125,14 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
-    <IncludePath>C:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\FreeTypeInclude;$(IncludePath)</IncludePath>
-    <ReferencePath>C:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\FreeTypeInclude\dll;$(ReferencePath)</ReferencePath>
+    <IncludePath>C:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\FreeTypeInclude;$(IncludePath)</IncludePath>
+    <ReferencePath>C:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine;$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>C:\Users\gabri\OneDrive\Desktop\EngineOutput\</OutDir>
-    <IncludePath>C:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\FreeTypeInclude;$(IncludePath)</IncludePath>
+    <IncludePath>.\FreeTypeInclude;$(IncludePath)</IncludePath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
-    <ReferencePath>C:\Users\gabri\OneDrive\Desktop\MySpecialEngine\MySpecialEngine\FreeTypeInclude\dll;$(ReferencePath)</ReferencePath>
+    <ReferencePath>.\FreeTypeInclude\dll;$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

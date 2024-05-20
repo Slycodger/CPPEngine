@@ -12,8 +12,7 @@ std::set<std::string> FileTypes = { "MYOBJ" };
 std::map<std::string, int> ObjsLoaded;
 
 LoadedModel ModelsLoaded[MAXMODELCOUNT];
-unsigned int ModelLoadedCount = 0;
-
+static unsigned int ModelLoadedCount = 0;
 
 
 
@@ -47,6 +46,7 @@ unsigned int*& ReturnIndiceCopy(unsigned int ID)
 
 void LoadModelCopy(Model &Model, unsigned int ID)
 {
+	Model.DeleteModel();
 	Model.Vertices = ReturnVerticeCopy(ID);
 	Model.Indices = ReturnIndiceCopy(ID);
 	Model.VertCount = ModelsLoaded[ID].VertCount;
@@ -54,14 +54,14 @@ void LoadModelCopy(Model &Model, unsigned int ID)
 	Model.Name = ModelsLoaded[ID].Name;
 }
 
-unsigned int GetFreeModelSlot()
+int GetFreeModelSlot()
 {
 	for (unsigned int i = 0; i < MAXMODELCOUNT; i++)
 	{
 		if (ModelsLoaded[i].VertCount == 0)
 			return i;
 	}
-	return 0;
+	return -1;
 }
 
 double ParseDouble(std::string String)
@@ -120,6 +120,8 @@ unsigned int ParseUnsignedInterger(std::string String)
 	return Ret;
 }
 
+
+//Data modifiers
 void ElementToArrayDrawing(float*& OldVertices, unsigned int*& Indices, unsigned int IndiceCount, unsigned int VertLength)
 {
 	float* Vertices = new float[IndiceCount * VertLength];
@@ -180,6 +182,8 @@ void AddNormalsToArray(float*& Vertices, unsigned int VertCount, unsigned int Ve
 	}
 }
 
+
+//Different loading types
 int LoadMYOBJFile(LoadedModel& CurrentModel, std::string ModelName, std::string FileType)
 {
 	unsigned int VertPadding = 0;
@@ -340,7 +344,8 @@ void LoadModel(Model& CurrentModel, std::string ModelName, std::string FileType)
 		CurrentModel.DeleteModel();
 	if (!ObjsLoaded.contains(ModelName))
 		LoadModelIntoBuffer(CurrentModel, ModelName, FileType);
-	LoadModelCopy(CurrentModel, ObjsLoaded[ModelName]);
+	else
+		LoadModelCopy(CurrentModel, ObjsLoaded[ModelName]);
 }
 
 namespace ModelLoading

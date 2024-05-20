@@ -18,20 +18,13 @@
 #include "Camera.h"
 #include "List.h"
 #include "EngineBase.h"
-#include "LightingMain.h"
 
-int GetGameObj(std::string name);
-void SetToTransform(std::string GameObj, Object* Obj);
 void SetToTransform(Object* Obj);
 void CreateModelMat(glm::mat4& Mat, Vector3 Position, Vector3 Rotation, Vector3 Scale);
 void CreateCamMat(glm::mat4& Mat, Vector3 Position, Vector3 Rotation);
 void RenderCustomObj(Shader& shader, unsigned int VAO, unsigned int VBO, unsigned int EBO, unsigned int EBOCount, Vector3 MeshColor, transform Transform);
 void RenderSingleObj(Shader& shader, Object*& ObjToDraw, std::string NoTextureShader, std::string TextureShader);
-void RenderShadows(Shader& shader);
 void RenderScene(Shader& shader, std::string NoTextureShader, std::string TextureShader);
-float* CreatePerspectiveMat(float FOV, float Ratio, float FarClip, float NearClip);
-void RenderStretchScene(Shader& shader);
-void RenderScreen(Shader& shader, Object*& ObjWithScreen, std::string Shader);
 
 //Camera setings
 float CameraNearClip = 0.01;
@@ -78,8 +71,9 @@ glm::mat4 ViewMat(1);
 
 namespace AObjectDraw
 {
-	void Start(Shader &shader);
-	void Update(Shader &shader);
+	void Start(Shader& shader);
+	void Update(Shader& shader);
 	void End();
 }
+
 #endif

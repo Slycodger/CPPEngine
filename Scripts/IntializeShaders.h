@@ -122,6 +122,7 @@ struct Shader
 				std::cout << "Failed to load VertexShader : " << Shaders[VERTFILE] + VERTFILE << "\n";
 			}
 			glAttachShader(program, VertexShader);
+			vShaderFile.close();
 		}
 		if (fShaderCode != nullptr) 
 		{
@@ -133,6 +134,7 @@ struct Shader
 				std::cout << "Failed to load FragmentShader : " << Shaders[FRAGFILE] + FRAGFILE << "\n";
 			}
 			glAttachShader(program, FragmentShader);
+			fShaderFile.close();
 		}
 		if (gShaderCode != nullptr)
 		{
@@ -144,6 +146,7 @@ struct Shader
 				std::cout << "Failed to load GeometryShader : " << Shaders[GEOMFILE] + GEOMFILE << "\n";
 			}
 			glAttachShader(program, GeometryShader);
+			gShaderFile.close();
 		}
 		glLinkProgram(program);
 
@@ -151,8 +154,6 @@ struct Shader
 		glDeleteShader(FragmentShader);
 		glDeleteShader(GeometryShader);
 
-		vShaderFile.close();
-		fShaderFile.close();
 	}
 };
 struct ComputeShader

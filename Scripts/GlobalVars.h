@@ -8,11 +8,8 @@
 #include <map>
 namespace ScreenSpace
 {
-	extern float yGridScale;
-	extern float xGridScale;
 	extern float Width;
 	extern float Height;
-	extern float gridHeight;
 	extern int WindowXPos;
 	extern int WindowYPos;
 }

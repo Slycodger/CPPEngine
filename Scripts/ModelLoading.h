@@ -48,8 +48,9 @@ struct Model
 	}
 	void ResetModel()
 	{
-		Model ReturnModelCopy(unsigned int ID);
-		*this = ReturnModelCopy(ID);
+		DeleteModel();
+		void LoadModelCopy(Model &Model, unsigned int ID);
+		LoadModelCopy(*this, ID);
 	}
 };
 
