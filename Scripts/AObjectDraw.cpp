@@ -22,11 +22,13 @@ void DeleteAll()
 			continue;
 		for (int i = 0; i < Objects[Obj]->Scripts.Length; i++)
 		{
-			((ObjectBehavior*)Objects[Obj]->Scripts[i]->Script)->DestroyHeap();
+			((ObjectBehavior*)Objects[Obj]->Scripts[i]->Script)->DeleteHeap();
 			delete(Objects[Obj]->Scripts[i]->Script);
 			Objects[Obj]->Scripts[i]->Script = nullptr;
 		}
 		Objects[Obj]->Scripts.Delete();
+		delete[](Objects[Obj]->mesh.Vertices);
+		delete[](Objects[Obj]->mesh.Indices);
 		delete(Objects[Obj]);
 		Objects[Obj] = nullptr;
 	}
@@ -48,7 +50,7 @@ void Constructor()
 namespace AObjectDraw
 {
 	//Called at the start
-	void Start(Shader& shader)
+	void Start()
 	{
 		Constructor();
 
@@ -65,27 +67,27 @@ namespace AObjectDraw
 			{
 				ObjectBehavior* ScrObj = ((ObjectBehavior*)(Objects[Obj]->Scripts[Scr]->Script));
 				if (ScrObj->thisObj == nullptr)
+				{
 					ScrObj->SetObject(Objects[Obj]);
+					ScrObj->Start();
+				}
 			}
 		}
 	}
 
 	//Called every frame
-	void Update(Shader& shader)
+	void Update()
 	{
 		glClearColor(0.2, 0.3, 0.3, 1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-		RenderScene(shader, "BasicNoTextureShader", "BasicTextureShader");
+		RenderScene("BasicNoTextureShader", "BasicTextureShader");
 	}
 
 	//The ending function
 	void End()
 	{
 		DeleteAll();
-
-		delete[](PerspectiveMat);
-		delete[](OrthographicMat);
 	}
 }
 
@@ -97,8 +99,21 @@ void DeleteObj(Object *&Obj)
 	Objects[Obj->mesh.Index]->Scripts.Delete();
 
 	//This function is called from an objects destructor so use 'free' to avoid loops from forming
-	free(Objects[Obj->mesh.Index]);
-	Objects[Obj->mesh.Index] = nullptr;
+	int Index = Obj->mesh.Index;
+	free(Objects[Index]);
+	Objects[Index] = nullptr;
+	ObjCount--;
+}
+//Mostly meant for using delete() on an object
+void DeleteObj(int Obj)
+{
+	if (Obj < 0 || Objects[Obj] == nullptr)
+		return;
+	Objects[Obj]->Scripts.Delete();
+
+	//This function is called from an objects destructor so use 'free' to avoid loops from forming
+	free(Objects[Obj]);
+	Objects[Obj] = nullptr;
 	ObjCount--;
 }
 
@@ -173,7 +188,7 @@ void RunScripts(int Obj)
 }
 
 //Render a custom object, mostly meant for customs like shadow volumes.
-void RenderCustomObj(Shader& shader, unsigned int VAO, unsigned int VBO, unsigned int EBO, unsigned int EBOCount, Vector3 MeshColor, transform Transform)
+void RenderCustomObj(unsigned int VAO, unsigned int VBO, unsigned int EBO, unsigned int EBOCount, Vector3 MeshColor, transform Transform)
 {
 	shader.SetMat4("perp", MainCamera.GetProjectionMatrix());
 
@@ -207,7 +222,7 @@ void RenderCustomObj(Shader& shader, unsigned int VAO, unsigned int VBO, unsigne
 }
 
 //Render a single object, can be used to have objects appear through walls
-void RenderSingleObj(Shader& shader, Object*& ObjToDraw, std::string NoTextureShader, std::string TextureShader)
+void RenderSingleObj(Object*& ObjToDraw, std::string NoTextureShader, std::string TextureShader)
 {
 	Vector3 Pos = MainCamera.Position;
 	Vector3 Rot = MainCamera.RotToVec();
@@ -247,14 +262,13 @@ void RenderSingleObj(Shader& shader, Object*& ObjToDraw, std::string NoTextureSh
 	Scale = Objects[Obj]->Transform.Scale();
 	CreateModelMat(ObjTransformMat, Pos, Rot, Scale);
 	shader.SetMat4("transform", glm::value_ptr(ObjTransformMat));
-	shader.SetVec3("MeshColor", Objects[Obj]->mesh.Color);
 	glDrawElements(GL_TRIANGLES, Objects[Obj]->mesh.IndiceCount, GL_UNSIGNED_INT, (void*)(0));
 	glBindVertexArray(0);
 	return;
 }
 
 //Render the basic scene
-void RenderScene(Shader& shader, std::string NoTextureShader, std::string TextureShader)
+void RenderScene(std::string NoTextureShader, std::string TextureShader)
 {
 	Vector3 Pos = MainCamera.Position;
 	Vector3 Rot = MainCamera.RotToVec();
@@ -265,10 +279,15 @@ void RenderScene(Shader& shader, std::string NoTextureShader, std::string Textur
 	{
 		if (Objects[Obj] != nullptr)
 		{
+			if (Objects[Obj]->Children.Length > 0)
+			{
+				if (Objects[Obj]->BranchHead)
+					Objects[Obj]->UpdateChildren();
+			}
+			else if(Objects[Obj]->Parent == nullptr)
+				Objects[Obj]->RelativeTransform = Objects[Obj]->Transform.T;
 			if (Objects[Obj]->Scripts.Length > 0)
 				RunScripts(Obj);
-			if (Objects[Obj]->Children.Length > 0 && Objects[Obj]->BranchHead)
-				Objects[Obj]->UpdateChildren();
 		}
 	}
 
@@ -278,13 +297,14 @@ void RenderScene(Shader& shader, std::string NoTextureShader, std::string Textur
 		if (Objects[Obj] == nullptr)
 			continue;
 		if (!Objects[Obj]->mesh.Active)
-			return;
+			continue;
 
 		glBindVertexArray(Objects[Obj]->mesh.VAO);
 
 		if (Objects[Obj]->mesh.Texture == -1)
 		{
 			shader.Use(Shading::ShaderPrograms[NoTextureShader]);
+
 		}
 		else
 		{

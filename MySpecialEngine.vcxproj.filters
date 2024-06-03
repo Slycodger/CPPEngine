@@ -20,10 +20,10 @@
     <ClCompile Include="Scripts\GUIText.cpp">
       <Filter>CPPFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\ModelLoading.cpp">
+    <ClCompile Include="Scripts\Camera.cpp">
       <Filter>CPPFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\Camera.cpp">
+    <ClCompile Include="Scripts\ModelLoading.cpp">
       <Filter>CPPFiles</Filter>
     </ClCompile>
   </ItemGroup>
@@ -130,12 +130,24 @@
     <None Include="Shaders\BasicNoTextureVert.vert">
       <Filter>Shaders\BareMinimum\BasicNoTextureShader</Filter>
     </None>
+    <None Include="Shaders\TextVert.vert">
+      <Filter>Shaders\Text</Filter>
+    </None>
+    <None Include="Shaders\TextFrag.frag">
+      <Filter>Shaders\Text</Filter>
+    </None>
+    <None Include="Shaders\TextSetupVert.vert">
+      <Filter>Shaders\Text\Setup</Filter>
+    </None>
+    <None Include="Shaders\TextSetupFrag.frag">
+      <Filter>Shaders\Text\Setup</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="Archivies.txt" />
     <Text Include="Objects\Cube.MYOBJ">
       <Filter>Objects</Filter>
     </Text>
+    <Text Include="Archivies.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="CPPFiles">
@@ -179,6 +191,12 @@
     </Filter>
     <Filter Include="Headers">
       <UniqueIdentifier>{c777dffa-b0a3-4bb7-8ad1-a221d3f6d119}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Text">
+      <UniqueIdentifier>{119305a5-d6ab-40ab-b4c4-dcbaca6dcb6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\Text\Setup">
+      <UniqueIdentifier>{6d806ff4-2fa3-426d-98b5-c313365baaa6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

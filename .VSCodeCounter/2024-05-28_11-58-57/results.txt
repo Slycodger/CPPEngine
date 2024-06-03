@@ -1,0 +1,42 @@
+Date : 2024-05-28 11:58:57
+Directory : c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Shaders
+Total : 18 files,  265 codes, 0 comments, 83 blanks, all 348 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| GLSL     |         18 |        265 |          0 |         83 |        348 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                   | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                      |         18 |        265 |          0 |         83 |        348 |
++--------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                               | language | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Shaders\BasicFrag.frag                | GLSL     |          8 |          0 |          5 |         13 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Shaders\BasicNoTextureFrag.frag       | GLSL     |          7 |          0 |          3 |         10 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Shaders\BasicNoTextureVert.vert       | GLSL     |         12 |          0 |          4 |         16 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Shaders\BasicVert.vert                | GLSL     |         12 |          0 |          4 |         16 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Shaders\FractalFrag.frag              | GLSL     |         29 |          0 |         11 |         40 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Shaders\FractalVert.vert              | GLSL     |          6 |          0 |          1 |          7 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Shaders\SMappingBasicFrag.frag        | GLSL     |         47 |          0 |         11 |         58 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Shaders\SMappingBasicVert.vert        | GLSL     |         21 |          0 |          5 |         26 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Shaders\SMappingDepthTextureFrag.frag | GLSL     |          4 |          0 |          2 |          6 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Shaders\SMappingDepthTextureVert.vert | GLSL     |          9 |          0 |          2 |         11 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Shaders\SMappingNoTextureFrag.frag    | GLSL     |         43 |          0 |         11 |         54 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Shaders\SMappingNoTextureVert.vert    | GLSL     |         18 |          0 |          5 |         23 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Shaders\TextFrag.frag                 | GLSL     |          8 |          0 |          5 |         13 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Shaders\TextSetupFrag.frag            | GLSL     |          8 |          0 |          5 |         13 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Shaders\TextSetupVert.vert            | GLSL     |          9 |          0 |          3 |         12 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Shaders\TextVert.vert                 | GLSL     |          9 |          0 |          2 |         11 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Shaders\WhiteSpaceFrag.frag           | GLSL     |          6 |          0 |          2 |          8 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Shaders\WhiteSpaceVert.vert           | GLSL     |          9 |          0 |          2 |         11 |
+| Total                                                                                                  |          |        265 |          0 |         83 |        348 |
++--------------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

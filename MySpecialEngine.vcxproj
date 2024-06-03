@@ -42,6 +42,10 @@
     <None Include="Shaders\BasicVert.vert" />
     <None Include="Shaders\FractalFrag.frag" />
     <None Include="Shaders\FractalVert.vert" />
+    <None Include="Shaders\TextFrag.frag" />
+    <None Include="Shaders\TextSetupFrag.frag" />
+    <None Include="Shaders\TextSetupVert.vert" />
+    <None Include="Shaders\TextVert.vert" />
     <None Include="Shaders\WhiteSpaceFrag.frag" />
     <None Include="Shaders\WhiteSpaceVert.vert" />
     <None Include="Shaders\SMappingDepthTextureFrag.frag" />
@@ -175,6 +179,7 @@
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
       <EnableModules>true</EnableModules>
       <BuildStlModules>true</BuildStlModules>
+      <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

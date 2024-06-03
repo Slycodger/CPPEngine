@@ -6,12 +6,14 @@
 #ifndef GLOBALVARS
 #define GLOBALVARS
 #include <map>
+#include "IntializeShaders.h"
 namespace ScreenSpace
 {
 	extern float Width;
 	extern float Height;
 	extern int WindowXPos;
 	extern int WindowYPos;
+	extern float WidthToHeight;
 }
 namespace App
 {
@@ -21,13 +23,9 @@ namespace Time
 {
 	extern double deltaTime;
 }
-namespace Fails
-{
-	extern bool Break;
-	extern int BreakCode;
-}
 namespace Shading
 {
 	extern std::map <std::string, unsigned int> ShaderPrograms;
 }
+extern Shader shader;
 #endif

@@ -151,6 +151,7 @@ struct Vector2
 	Vector2() : x(0), y(0){}
 	Vector2(float val) : x(val), y(val){}
 	Vector2(float a, float b) : x(a), y(b){}
+	Vector2(Vector3 vec) : x(vec.x), y(vec.y) {}
 
 	enum Vec2{Zero};
 
@@ -164,6 +165,62 @@ struct Vector2
 			ret.y = 0;
 			break;
 		}
+		return ret;
+	}
+
+	bool operator == (const Vector2 obj)
+	{
+		if (x == obj.x && y == obj.y)
+			return true;
+		return false;
+	}
+	bool operator != (const Vector2 obj) 
+	{
+		return !(*this == obj);
+	}
+	bool operator >= (const Vector2 obj)
+	{
+		if (x >= obj.x && y >= obj.y)
+			return true;
+		return false;
+	}
+	bool operator <= (const Vector2 obj)
+	{
+		if (x <= obj.x && y <= obj.y)
+			return true;
+		return false;
+	}
+	Vector2 operator *(const int Val)
+	{
+		return Vector2(x * Val, y * Val);
+	}
+	Vector2 operator *(Vector2 const& obj)
+	{
+		Vector2 ret;
+		ret.x = x * obj.x;
+		ret.y = y * obj.y;
+		return ret;
+	}
+	Vector2 operator *=(const float Val)
+	{
+		return Vector2(x *= Val, y *= Val);
+	}
+	Vector2 operator /=(float const& obj)
+	{
+		Vector2 ret;
+		ret.x = x /= obj;
+		ret.y = y /= obj;
+		return ret;
+	}
+	Vector2 operator /(const Vector2 obj)
+	{
+		return Vector2(x / obj.x, y / obj.y);
+	}
+	Vector2 operator +(Vector2 const& obj)
+	{
+		Vector2 ret;
+		ret.x = x + obj.x;
+		ret.y = y + obj.y;
 		return ret;
 	}
 	friend std::ostream& operator << (std::ostream& os, Vector2 const& obj);

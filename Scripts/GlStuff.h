@@ -12,5 +12,4 @@
 #include "glm/ext/matrix_transform.hpp"
 #include "glm/gtc/type_ptr.hpp"
 #include "glm/trigonometric.hpp"
-extern glm::mat4 Identity;
 #endif

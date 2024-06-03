@@ -32,45 +32,6 @@ struct Edge
 	}
 };
 
-struct AloneEdge
-{
-	Vector4 Vert1 = 0;
-	Vector4 Vert2 = 0;
-	Vector4 Vert3 = 0;
-	Edge edge;
-	int Indice3;
-	int Padding = 0;
-
-	AloneEdge() : Vert1(0), Vert2(0), Vert3(0), edge(-1), Indice3(0) {}
-
-	bool operator == (AloneEdge& Obj)
-	{
-		if (edge != Obj.edge)
-			return false;
-		return true;
-	}
-};
-
-struct ConnectedEdge
-{
-	Vector4 Vert1 = 0;
-	Vector4 Vert2 = 0;
-	Vector4 Vert3 = 0;
-	Vector4 Vert4 = 0;
-	Edge edge;
-	Edge Outpoints;
-
-	ConnectedEdge() : Vert1(0), Vert2(0), Vert3(0), Vert4(0), edge(-1), Outpoints(-1) {}
-	ConnectedEdge(AloneEdge Obj, Vector4 Vec, int Indice) : Vert1(Obj.Vert1), Vert2(Obj.Vert2), Vert3(Obj.Vert3), Vert4(Vec), edge(Obj.edge.Vert2, Obj.edge.Vert1), Outpoints(Edge(Obj.Indice3, Indice)) {}
-
-	bool operator == (ConnectedEdge& Obj)
-	{
-		if (edge != Obj.edge)
-			return false;
-		return true;
-	}
-};
-
 struct transform
 {
 	Vector3 Position = Vector3(0, 0, 0);
@@ -93,11 +54,8 @@ struct transform
 
 struct scriptObj
 {
-	~scriptObj()
-	{
-		delete(Script);
-	}
-	void(*Script);
+	scriptObj() : Script(nullptr), Active(true) {}
+	void(*Script) = nullptr;
 	bool Active = true;
 };
 
@@ -167,6 +125,12 @@ struct ObjP
 		T.Scale.y = Scale;
 		T.Scale.z = Scale;
 	}
+	void SetScale(Vector2 Scale)
+	{
+		T.Scale.x = Scale.x;
+		T.Scale.y = Scale.y;
+		T.Scale.z = 1;
+	}
 	Vector3 Position()
 	{
 		return T.Position;
@@ -223,6 +187,7 @@ struct Object
 		mesh.Indices = ActiveModel.GetIndices();
 		mesh.VertCount = ActiveModel.VertCount;
 		mesh.IndiceCount = ActiveModel.IndiceCount;
+		ObjName = ActiveModel.Name;
 
 		glDeleteBuffers(1, &mesh.VBO);
 		glDeleteBuffers(1, &mesh.EBO);
@@ -233,11 +198,11 @@ struct Object
 
 		glGenBuffers(1, &mesh.VBO);
 		glBindBuffer(GL_ARRAY_BUFFER, mesh.VBO);
-		glBufferData(GL_ARRAY_BUFFER, mesh.VertCount * 4, mesh.Vertices, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, mesh.VertCount * 4, mesh.Vertices, GL_DYNAMIC_DRAW);
 
 		glGenBuffers(1, &mesh.EBO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh.EBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.IndiceCount * 4, mesh.Indices, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh.IndiceCount * 4, mesh.Indices, GL_DYNAMIC_DRAW);
 
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 9 * (sizeof(float)), (void*)0);
 		glEnableVertexAttribArray(0);
@@ -255,8 +220,8 @@ struct Object
 
 	void AddScript(void* Scr)
 	{
-		scriptObj* tmp = new scriptObj;
-		tmp->Script = Scr;
+		scriptObj tmp;
+		tmp.Script = Scr;
 		Scripts.AddToList(tmp);
 	}
 	
@@ -266,7 +231,7 @@ struct Object
 			return;
 		if (Parent != nullptr)
 			Parent->Children.RemoveFromList(ChildIndex);
-		Obj->Children.AddToList(new Object *(this));
+		Obj->Children.AddToList(this);
 		ChildIndex = Obj->Children.Length - 1;
 		Parent = Obj;
 		SetRelativePosition();

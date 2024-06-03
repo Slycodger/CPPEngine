@@ -10,6 +10,7 @@
 #include "GlStuff.h"
 #include "Vector.h"
 #include "List.h"
+#include <map>
 
 struct Shader
 {	

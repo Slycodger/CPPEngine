@@ -70,7 +70,7 @@ namespace ModelLoading
 #include <set>
 #include <cmath>
 #include "MathFunctions.h"
-
+#include <map>
 
 struct LoadedModel
 {

@@ -10,8 +10,7 @@ struct MouseView
 
 struct Mouse
 {
-	Vector2 Pos;
-	Vector2 Movement;
+	Vector2 Pos, Movement;
 	MouseView::Enumeration Visibility = MouseView::Shown;
 };
 

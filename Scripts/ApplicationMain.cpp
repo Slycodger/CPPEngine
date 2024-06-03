@@ -7,7 +7,6 @@
 
 using namespace ScreenSpace;
 using namespace Time;
-using namespace Fails;
 using namespace App;
 using namespace Shading;
 
@@ -23,6 +22,7 @@ namespace ScreenSpace
 	float Height = 720;
 	int WindowXPos;
 	int WindowYPos;
+	float WidthToHeight = Width / Height;
 }
 namespace App
 {
@@ -32,16 +32,11 @@ namespace Time
 {
 	double deltaTime = 0;
 }
-namespace Fails
-{
-	bool Break;
-	int BreakCode;
-}
 namespace Shading
 {
 	std::map<std::string, unsigned int> ShaderPrograms;
 }
-
+Shader shader;
 Mouse ActiveMouse;
 
 
@@ -58,14 +53,13 @@ int main()
 	glfwSetCursorPosCallback(Window, MouseMoveCallback);
 	glfwSetWindowPosCallback(Window, WindowMoveCallBack);
 
-	Shader myShader;
 	std::map<std::string, std::string> NewShaders;
 
 	{
 		NewShaders.insert({ VERTFILE, "FractalVert"});
 		NewShaders.insert({ FRAGFILE, "FractalFrag" });
 		unsigned int TempShader;
-		myShader.CreateShader(NewShaders, TempShader);
+		shader.CreateShader(NewShaders, TempShader);
 		ShaderPrograms.insert({ "FractalShader", TempShader });
 		NewShaders.clear();
 	}
@@ -73,7 +67,7 @@ int main()
 		NewShaders.insert({ VERTFILE, "BasicVert" });
 		NewShaders.insert({ FRAGFILE, "BasicFrag" });
 		unsigned int TempShader;
-		myShader.CreateShader(NewShaders, TempShader);
+		shader.CreateShader(NewShaders, TempShader);
 		ShaderPrograms.insert({ "BasicTextureShader", TempShader });
 		NewShaders.clear();
 	}
@@ -81,7 +75,7 @@ int main()
 		NewShaders.insert({ VERTFILE, "WhiteSpaceVert"});
 		NewShaders.insert({ FRAGFILE, "WhiteSpaceFrag"});
 		unsigned int TempShader;
-		myShader.CreateShader(NewShaders, TempShader);
+		shader.CreateShader(NewShaders, TempShader);
 		ShaderPrograms.insert({ "WhiteSpaceShader", TempShader });
 		NewShaders.clear();
 	}
@@ -89,17 +83,34 @@ int main()
 		NewShaders.insert({ VERTFILE, "BasicNoTextureVert" });
 		NewShaders.insert({ FRAGFILE, "BasicNoTextureFrag" });
 		unsigned int TempShader;
-		myShader.CreateShader(NewShaders, TempShader);
+		shader.CreateShader(NewShaders, TempShader);
 		ShaderPrograms.insert({ "BasicNoTextureShader", TempShader });
+		NewShaders.clear();
+	}
+	{
+		NewShaders.insert({ VERTFILE, "TextSetupVert" });
+		NewShaders.insert({ FRAGFILE, "TextSetupFrag" });
+		unsigned int TempShader;
+		shader.CreateShader(NewShaders, TempShader);
+		ShaderPrograms.insert({ "TextSetupShader", TempShader });
+		NewShaders.clear();
+	}
+	{
+		NewShaders.insert({ VERTFILE, "TextVert" });
+		NewShaders.insert({ FRAGFILE, "TextFrag" });
+		unsigned int TempShader;
+		shader.CreateShader(NewShaders, TempShader);
+		ShaderPrograms.insert({ "TextShader", TempShader });
 		NewShaders.clear();
 	}
 
 
 	KeyPresses::Start();
+	GUIText::Start();
 	DrawingPad::Start();
-	AObjectDraw::Start(myShader);
-	GUIText::Start(myShader);
+	AObjectDraw::Start();
 
+	glfwSwapBuffers(Window);
 	glfwSetWindowPos(Window, 25, 25);
 	glfwGetWindowPos(Window, &WindowXPos, &WindowYPos);
 
@@ -140,22 +151,17 @@ int main()
 		//Keycallback
 		glfwPollEvents();
 
-		if(Break)
-		{
-			glfwTerminate();
-			return BreakCode;
-		}
 		if(Stop)
 		{
 			glfwSetWindowShouldClose(Window, 1);
 		}
 
-		AObjectDraw::Update(myShader);
-		GUIText::Update(myShader);
+		AObjectDraw::Update();
+		GUIText::Update();
 		DrawingPad::Update(Window);
 		glFinish();
-
 		glfwSwapBuffers(Window);
+
 		ActiveMouse.Movement.x = 0;
 		ActiveMouse.Movement.y = 0;
 
@@ -163,6 +169,7 @@ int main()
 	}
 	AObjectDraw::End();
 	DrawingPad::End();
+	GUIText::End();
 	ModelLoading::DeleteHeap();
 	glfwSetWindowShouldClose(Window, 1);
 	glfwTerminate();
@@ -196,18 +203,15 @@ void MouseClickCallback(GLFWwindow* window, int button, int action, int mods)
 //Gets called when the mouse is moved
 void MouseMoveCallback(GLFWwindow* window, double xpos, double ypos)
 {
-	int width;
-	int height;
-	glfwGetWindowSize(window, &width, &height);
-	ActiveMouse.Movement.x = xpos / width;
-	ActiveMouse.Movement.y = ypos / height;
-	ActiveMouse.Pos.x = xpos;
-	ActiveMouse.Pos.y = ypos;
+	ActiveMouse.Movement.x = xpos / Height * 2;
+	ActiveMouse.Movement.y = ypos / Height * 2;
+	ActiveMouse.Pos.x = xpos / Width * 2 - 1;
+	ActiveMouse.Pos.y = 2 - (ypos / Height * 2) - 1;
 }
 
 void WindowMoveCallBack(GLFWwindow *window, int x, int y)
 {
-	WindowXPos = x ;
+	WindowXPos = x;
 	WindowYPos = y;
 }
 
@@ -241,9 +245,11 @@ int StartOpenGL()
 		glfwTerminate();
 		return -3;
 	}
+	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	return 0;
 }
 

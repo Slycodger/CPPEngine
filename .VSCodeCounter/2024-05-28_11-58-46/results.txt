@@ -1,0 +1,49 @@
+Date : 2024-05-28 11:58:46
+Directory : c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts
+Total : 25 files,  2645 codes, 84 comments, 376 blanks, all 3105 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| C++      |         25 |      2,645 |         84 |        376 |      3,105 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                         | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                            |         25 |      2,645 |         84 |        376 |      3,105 |
++----------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                     | language | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts\AObjectDraw.cpp     | C++      |        260 |         26 |         44 |        330 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts\AObjectDraw.h       | C++      |         60 |          6 |         14 |         80 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts\ApplicationMain.cpp | C++      |        261 |          9 |         32 |        302 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts\ApplicationMain.h   | C++      |         20 |          0 |          5 |         25 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts\Camera.cpp          | C++      |         28 |          8 |          2 |         38 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts\Camera.h            | C++      |        133 |          0 |         22 |        155 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts\Constants.h         | C++      |         20 |          3 |          3 |         26 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts\DrawingPad.cpp      | C++      |         83 |          4 |          7 |         94 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts\DrawingPad.h        | C++      |         24 |          3 |          6 |         33 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts\EngineBase.h        | C++      |         16 |          0 |          1 |         17 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts\GUIText.cpp         | C++      |        272 |          1 |         71 |        344 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts\GUIText.h           | C++      |         39 |          0 |          9 |         48 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts\GlStuff.h           | C++      |         10 |          3 |          2 |         15 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts\GlobalVars.h        | C++      |         29 |          3 |          1 |         33 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts\IntializeShaders.h  | C++      |        220 |          3 |         22 |        245 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts\KeyPresses.cpp      | C++      |         58 |          3 |          7 |         68 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts\KeyPresses.h        | C++      |         17 |          3 |          4 |         24 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts\List.h              | C++      |        150 |          0 |          4 |        154 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts\MathFunctions.cpp   | C++      |         42 |          0 |          9 |         51 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts\MathFunctions.h     | C++      |         15 |          0 |          2 |         17 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts\ModelLoading.cpp    | C++      |        310 |          9 |         47 |        366 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts\ModelLoading.h      | C++      |         74 |          0 |         11 |         85 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts\Mouse.h             | C++      |         16 |          0 |          4 |         20 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts\ObjectClasses.h     | C++      |        291 |          0 |         35 |        326 |
+| c:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine\Scripts\Vector.h            | C++      |        197 |          0 |         12 |        209 |
+| Total                                                                                        |          |      2,645 |         84 |        376 |      3,105 |
++----------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

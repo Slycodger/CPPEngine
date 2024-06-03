@@ -4,7 +4,7 @@
 #include "ObjectClasses.h"
 struct ObjectBehavior
 {
-	virtual void DestroyHeap() { }
+	virtual void DeleteHeap() { }
 	virtual void Start() { }
 	virtual void Update(){}
 	Object* thisObj = nullptr;
