@@ -1,9 +1,111 @@
 #pragma once
-#ifndef VECTOR
-#define VECTOR
+
 #include <fstream>
 #include "Constants.h"
 #include "GlStuff.h"
+
+struct Vector2
+{
+	float x = 0;
+	float y = 0;
+
+	Vector2() : x(0), y(0) {}
+	Vector2(float val) : x(val), y(val) {}
+	Vector2(float a, int b) : x(a), y(b) {}
+	Vector2(int a, float b) : x(a), y(b) {}
+	Vector2(int a, int b) : x(a), y(b) {}
+	Vector2(float a, float b) : x(a), y(b) {}
+	Vector2(double a, double b) : x(a), y(b) {}
+
+	enum Vec2 { Zero };
+
+	Vector2 operator = (Vec2 Vec)
+	{
+		Vector2 ret;
+		switch (Vec)
+		{
+		case Zero:
+			ret.x = 0;
+			ret.y = 0;
+			break;
+		}
+		return ret;
+	}
+
+	bool operator == (const Vector2 obj)
+	{
+		if (x == obj.x && y == obj.y)
+			return true;
+		return false;
+	}
+	bool operator != (const Vector2 obj)
+	{
+		return !(*this == obj);
+	}
+	bool operator >= (const Vector2 obj)
+	{
+		if (x >= obj.x && y >= obj.y)
+			return true;
+		return false;
+	}
+	bool operator <= (const Vector2 obj)
+	{
+		if (x <= obj.x && y <= obj.y)
+			return true;
+		return false;
+	}
+	bool operator < (const Vector2 obj)
+	{
+		if (x < obj.x && y < obj.y)
+			return true;
+		return false;
+	}
+	Vector2 operator *(const float Val)
+	{
+		return Vector2(x * Val, y * Val);
+	}
+	Vector2 operator *(const int Val)
+	{
+		return Vector2(x * Val, y * Val);
+	}
+	Vector2 operator *(Vector2 const& obj)
+	{
+		Vector2 ret;
+		ret.x = x * obj.x;
+		ret.y = y * obj.y;
+		return ret;
+	}
+	Vector2 operator *=(const float Val)
+	{
+		return Vector2(x *= Val, y *= Val);
+	}
+	Vector2 operator /=(float const& obj)
+	{
+		Vector2 ret;
+		ret.x = x /= obj;
+		ret.y = y /= obj;
+		return ret;
+	}
+	Vector2 operator /(const Vector2 obj)
+	{
+		return Vector2(x / obj.x, y / obj.y);
+	}
+	Vector2 operator +(Vector2 const& obj)
+	{
+		Vector2 ret;
+		ret.x = x + obj.x;
+		ret.y = y + obj.y;
+		return ret;
+	}
+	Vector2 operator -(Vector2 const& obj)
+	{
+		Vector2 ret;
+		ret.x = x - obj.x;
+		ret.y = y - obj.y;
+		return ret;
+	}
+	friend std::ostream& operator << (std::ostream& os, Vector2 const& obj);
+};
 
 struct Vector3
 {
@@ -23,6 +125,12 @@ struct Vector3
 		y = glmVec.y;
 		z = glmVec.z;
 	}
+	Vector3(Vector2 Vec)
+	{
+		x = Vec.x;
+		y = Vec.y;
+		z = 0;
+	}
 	Vector3(float v)
 	{
 		x = v;
@@ -35,23 +143,32 @@ struct Vector3
 		y = 0;
 		z = 0;
 	}
-	glm::vec3 make_glmVec3() 
+	glm::vec3 makeGlmVec3() 
 	{
 		return glm::vec3(x, y, z);
 	}
-	glm::vec4 make_glmVec4()
+	glm::vec4 makeGlmVec4()
 	{
 		return glm::vec4(x, y, z, 1);
 	}
-
-
-	void Scale(Vector3 Vec)
+	bool operator > (const Vector2 obj)
 	{
-		x *= Vec.x;
-		y *= Vec.y;
-		z *= Vec.z;
+		if (x > obj.x && y > obj.y)
+			return true;
+		return false;
 	}
-
+	bool operator < (const Vector2 obj)
+	{
+		if (x < obj.x && y < obj.y)
+			return true;
+		return false;
+	}
+	bool operator < (const Vector3 obj)
+	{
+		if (x < obj.x && y < obj.y && z < obj.z)
+			return true;
+		return false;
+	}
 	void operator = (glm::vec4 const& obj)
 	{
 		x = obj.x;
@@ -143,89 +260,6 @@ struct Vector3
 	friend Vector3 operator -(Vector3 const& obj);
 };
 
-struct Vector2
-{
-	float x = 0;
-	float y = 0;
-
-	Vector2() : x(0), y(0){}
-	Vector2(float val) : x(val), y(val){}
-	Vector2(float a, float b) : x(a), y(b){}
-	Vector2(Vector3 vec) : x(vec.x), y(vec.y) {}
-
-	enum Vec2{Zero};
-
-	Vector2 operator = (Vec2 Vec)
-	{
-		Vector2 ret;
-		switch (Vec)
-		{
-		case Zero:
-			ret.x = 0;
-			ret.y = 0;
-			break;
-		}
-		return ret;
-	}
-
-	bool operator == (const Vector2 obj)
-	{
-		if (x == obj.x && y == obj.y)
-			return true;
-		return false;
-	}
-	bool operator != (const Vector2 obj) 
-	{
-		return !(*this == obj);
-	}
-	bool operator >= (const Vector2 obj)
-	{
-		if (x >= obj.x && y >= obj.y)
-			return true;
-		return false;
-	}
-	bool operator <= (const Vector2 obj)
-	{
-		if (x <= obj.x && y <= obj.y)
-			return true;
-		return false;
-	}
-	Vector2 operator *(const int Val)
-	{
-		return Vector2(x * Val, y * Val);
-	}
-	Vector2 operator *(Vector2 const& obj)
-	{
-		Vector2 ret;
-		ret.x = x * obj.x;
-		ret.y = y * obj.y;
-		return ret;
-	}
-	Vector2 operator *=(const float Val)
-	{
-		return Vector2(x *= Val, y *= Val);
-	}
-	Vector2 operator /=(float const& obj)
-	{
-		Vector2 ret;
-		ret.x = x /= obj;
-		ret.y = y /= obj;
-		return ret;
-	}
-	Vector2 operator /(const Vector2 obj)
-	{
-		return Vector2(x / obj.x, y / obj.y);
-	}
-	Vector2 operator +(Vector2 const& obj)
-	{
-		Vector2 ret;
-		ret.x = x + obj.x;
-		ret.y = y + obj.y;
-		return ret;
-	}
-	friend std::ostream& operator << (std::ostream& os, Vector2 const& obj);
-};
-
 struct Vector4
 {
 	float x;
@@ -249,7 +283,15 @@ struct Vector4
 			return false;
 		return true;
 	}
+	Vector4 operator *= (float Val)
+	{
+		Vector4 Ret(1);
+		Ret.x = x *= Val;
+		Ret.y = y *= Val;
+		Ret.z = z *= Val;
+		Ret.w = w *= Val;
+		return Ret;
+	}
+
 	friend std::ostream& operator << (std::ostream& os, Vector4 const& obj);
 };
-
-#endif

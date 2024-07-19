@@ -1,13 +1,12 @@
 #pragma once
-#ifndef CAMERA
-#define CAMERA
+
 #include "Vector.h"
 #include "GlStuff.h"
 #include "GlobalVars.h"
 #include "MathFunctions.h"
 
-void CreatePerspectiveMat(float*& Mat, float ScreenRatio, float FOVAngle, float FarClip, float NearClip);
-void CreateOrthographicMat(float*& Mat, float ScreenRatio, float RightClip, float LeftClip, float TopClip, float BottomClip, float FarClip, float NearClip);
+void createPerspectiveMat(float*& Mat, float ScreenRatio, float FOVAngle, float FarClip, float NearClip);
+void createOrthographicMat(float*& Mat, float ScreenRatio, float RightClip, float LeftClip, float TopClip, float BottomClip, float FarClip, float NearClip);
 
 class Camera
 {
@@ -37,8 +36,8 @@ public:
 
 	Camera() : PerpMat(new float[16]), OrthoMat(new float[16])
 	{
-		CreatePerspectiveMat(PerpMat, ScreenRatio, FOV, PerpFarClip, PerpNearClip);
-		CreateOrthographicMat(OrthoMat, ScreenRatio, RightClip, LeftClip, TopClip, BottomClip, OrthoFarClip, OrthoNearClip);
+		createPerspectiveMat(PerpMat, ScreenRatio, FOV, PerpFarClip, PerpNearClip);
+		createOrthographicMat(OrthoMat, ScreenRatio, RightClip, LeftClip, TopClip, BottomClip, OrthoFarClip, OrthoNearClip);
 	}
 	~Camera()
 	{
@@ -55,10 +54,8 @@ public:
 		PerpNearClip += DNearClip;
 		PerpFarClip += DFarClip;
 
-		CreatePerspectiveMat(PerpMat, ScreenRatio, FOV, PerpFarClip, PerpNearClip);
+		createPerspectiveMat(PerpMat, ScreenRatio, FOV, PerpFarClip, PerpNearClip);
 	}
-
-
 
 
 	Vector3 Position = Vector3();
@@ -125,7 +122,7 @@ public:
 	}
 	Vector3 DirectionRight()
 	{
-		return CrossProduct(DirectionFacing(), DirectionUp());
+		return crossProduct(DirectionFacing(), DirectionUp());
 	}
 	Vector3 RotToVec()
 	{
@@ -151,5 +148,3 @@ public:
 };
 
 extern Camera MainCamera;
-
-#endif

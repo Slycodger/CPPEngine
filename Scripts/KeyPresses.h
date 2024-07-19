@@ -1,24 +1,21 @@
-/*
-* Keylogic such as Held, Released, or Pressed
-*/
-
 #pragma once
-#ifndef KEYPRESSES
-#define KEYPRESSES
 
 namespace Keys
 {
-	bool KeyHeld(int Key);
-	bool KeyPressed(int Key);
-	bool KeyReleased(int Key);
+	bool keyHeld(int Key);
+	bool keyPressed(int Key);
+	bool keyReleased(int Key);
 }
-
+struct Key
+{
+	bool Pressed = false;
+	bool Released = false;
+	bool Held = false;
+};
 namespace KeyPresses
 {
-	void Start();
-	void Update();
-	void PressedKey(int Key);
-	void ReleasedKey(int Key);
+	extern Key AllKeys[349];
+	void update();
+	void pressedKey(int Key);
+	void releasedKey(int Key);
 }
-
-#endif

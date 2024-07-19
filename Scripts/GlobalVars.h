@@ -1,11 +1,5 @@
-/*
-* Global variables meant to be externed
-*/
-
 #pragma once
-#ifndef GLOBALVARS
-#define GLOBALVARS
-#include <map>
+
 #include "IntializeShaders.h"
 namespace ScreenSpace
 {
@@ -22,10 +16,14 @@ namespace App
 namespace Time
 {
 	extern double deltaTime;
+	extern bool Pause;
 }
 namespace Shading
 {
 	extern std::map <std::string, unsigned int> ShaderPrograms;
 }
+namespace Flags
+{
+	extern bool MouseMoveFlag;
+}
 extern Shader shader;
-#endif

@@ -8,16 +8,16 @@
     <ClCompile Include="Scripts\KeyPresses.cpp">
       <Filter>CPPFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\ApplicationMain.cpp">
+    <ClCompile Include="Scripts\ApplicationBase.cpp">
       <Filter>CPPFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\AObjectDraw.cpp">
+    <ClCompile Include="Scripts\AppObjHandler.cpp">
       <Filter>CPPFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\DrawingPad.cpp">
+    <ClCompile Include="Scripts\TestingGround.cpp">
       <Filter>CPPFiles</Filter>
     </ClCompile>
-    <ClCompile Include="Scripts\GUIText.cpp">
+    <ClCompile Include="Scripts\TextCreation.cpp">
       <Filter>CPPFiles</Filter>
     </ClCompile>
     <ClCompile Include="Scripts\Camera.cpp">
@@ -26,9 +26,15 @@
     <ClCompile Include="Scripts\ModelLoading.cpp">
       <Filter>CPPFiles</Filter>
     </ClCompile>
+    <ClCompile Include="Scripts\Dllmain.cpp">
+      <Filter>CPPFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Scripts\ListFolder.cpp">
+      <Filter>CPPFiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Scripts\ApplicationMain.h">
+    <ClInclude Include="Scripts\ApplicationBase.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Scripts\Camera.h">
@@ -37,13 +43,13 @@
     <ClInclude Include="Scripts\Constants.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\DrawingPad.h">
+    <ClInclude Include="Scripts\TestingGround.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\EngineBase.h">
+    <ClInclude Include="Scripts\ScriptBase.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\AObjectDraw.h">
+    <ClInclude Include="Scripts\AppObjHandler.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Scripts\GlobalVars.h">
@@ -74,10 +80,22 @@
     <ClInclude Include="Scripts\Vector.h">
       <Filter>Headers</Filter>
     </ClInclude>
-    <ClInclude Include="Scripts\GUIText.h">
+    <ClInclude Include="Scripts\TextCreation.h">
       <Filter>Headers</Filter>
     </ClInclude>
     <ClInclude Include="Scripts\Mouse.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\Button.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\pch.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\DLLmain.h">
+      <Filter>Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Scripts\ListFolder.h">
       <Filter>Headers</Filter>
     </ClInclude>
   </ItemGroup>
@@ -142,6 +160,15 @@
     <None Include="Shaders\TextSetupFrag.frag">
       <Filter>Shaders\Text\Setup</Filter>
     </None>
+    <None Include="Shaders\ShowNormalsVert.vert">
+      <Filter>Shaders\ShowNormals</Filter>
+    </None>
+    <None Include="Shaders\ShowNormalsFrag.frag">
+      <Filter>Shaders\ShowNormals</Filter>
+    </None>
+    <None Include="Objects\Point.MYOBJ">
+      <Filter>Objects</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Objects\Cube.MYOBJ">
@@ -197,6 +224,9 @@
     </Filter>
     <Filter Include="Shaders\Text\Setup">
       <UniqueIdentifier>{6d806ff4-2fa3-426d-98b5-c313365baaa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\ShowNormals">
+      <UniqueIdentifier>{021075df-a320-4dd5-9879-7cbeb17d78ad}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-#define MODELLOADINGMAIN
+#define ModelLoading_MAIN
 #include "ModelLoading.h"
 
 
@@ -15,8 +15,8 @@ LoadedModel ModelsLoaded[MAXMODELCOUNT];
 static unsigned int ModelLoadedCount = 0;
 
 
-
-StringEnum::StringResolve EvaluateString(std::string Compare)
+//returns the type of file the string is
+StringEnum::StringResolve evaluateString(std::string Compare)
 {
 	if (Compare == "MYOBJ")
 		return StringEnum::MYOBJ;
@@ -24,7 +24,8 @@ StringEnum::StringResolve EvaluateString(std::string Compare)
 	return StringEnum::Invalid;
 }
 
-float*& ReturnVerticeCopy(unsigned int ID)
+//Creates a new float pointer to hold a models vertices
+float*& returnVerticeCopy(unsigned int ID)
 {
 	float* NewVerts = new float[ModelsLoaded[ID].VertCount];
 	for (int i = 0; i < ModelsLoaded[ID].VertCount; i++)
@@ -34,7 +35,8 @@ float*& ReturnVerticeCopy(unsigned int ID)
 	return NewVerts;
 }
 
-unsigned int*& ReturnIndiceCopy(unsigned int ID)
+//Creates a new unsigned int pointer to hold a models indices
+unsigned int*& returnIndiceCopy(unsigned int ID)
 {
 	unsigned int* NewIndices = new unsigned int[ModelsLoaded[ID].IndiceCount];
 	for (int i = 0; i < ModelsLoaded[ID].IndiceCount; i++)
@@ -44,17 +46,20 @@ unsigned int*& ReturnIndiceCopy(unsigned int ID)
 	return NewIndices;
 }
 
-void LoadModelCopy(Model &Model, unsigned int ID)
+//Creates a model copy for an object
+//Meant for if one script wants to change the mesh of an object, it won't mess with all the other models
+void loadModelCopy(Model &Model, unsigned int ID)
 {
-	Model.DeleteModel();
-	Model.Vertices = ReturnVerticeCopy(ID);
-	Model.Indices = ReturnIndiceCopy(ID);
+	Model.deleteModel();
+	Model.Vertices = returnVerticeCopy(ID);
+	Model.Indices = returnIndiceCopy(ID);
 	Model.VertCount = ModelsLoaded[ID].VertCount;
 	Model.IndiceCount = ModelsLoaded[ID].IndiceCount;
 	Model.Name = ModelsLoaded[ID].Name;
 }
 
-int GetFreeModelSlot()
+//Gets an open index in the loaded model list
+int getFreeModelSlot()
 {
 	for (unsigned int i = 0; i < MAXMODELCOUNT; i++)
 	{
@@ -64,7 +69,9 @@ int GetFreeModelSlot()
 	return -1;
 }
 
-double ParseDouble(std::string String)
+//Parses a double
+//I uses this instead of std::stod for reasons
+double parseDouble(std::string String)
 {
 	bool Neg = false, Expo = false, Deci = false;
 	double RetVal = 0, UseVal = 0, MulDivVal = 1;
@@ -109,7 +116,8 @@ double ParseDouble(std::string String)
 	return RetVal;
 }
 
-unsigned int ParseUnsignedInterger(std::string String)
+//Parses an unsigned int
+unsigned int parseUnsignedInterger(std::string String)
 {
 	unsigned int Ret = 0;
 	for (const char Char : String)
@@ -120,9 +128,8 @@ unsigned int ParseUnsignedInterger(std::string String)
 	return Ret;
 }
 
-
-//Data modifiers
-void ElementToArrayDrawing(float*& OldVertices, unsigned int*& Indices, unsigned int IndiceCount, unsigned int VertLength)
+//Converts a meshes vertices from element based to array based for drawing
+void elementToArrayDrawing(float*& OldVertices, unsigned int*& Indices, unsigned int IndiceCount, unsigned int VertLength)
 {
 	float* Vertices = new float[IndiceCount * VertLength];
 
@@ -137,7 +144,9 @@ void ElementToArrayDrawing(float*& OldVertices, unsigned int*& Indices, unsigned
 	OldVertices = Vertices;
 }
 
-void AddNormalsToArray(float*& Vertices, unsigned int VertCount, unsigned int VertLength, unsigned int Padding)
+//Adds normals to an array types vertices
+//Only works with array typed
+void addNormalsToArray(float*& Vertices, unsigned int VertCount, unsigned int VertLength, unsigned int Padding)
 {
 	unsigned int TrueLength = VertLength + Padding;
 
@@ -159,7 +168,7 @@ void AddNormalsToArray(float*& Vertices, unsigned int VertCount, unsigned int Ve
 		Vert3.y = Vertices[i + (TrueLength * 2) + 1];
 		Vert3.z = Vertices[i + (TrueLength * 2) + 2];
 
-		Vector3 Normal = CrossProduct(Vert2 - Vert1, Vert3 - Vert1);
+		Vector3 Normal = getNormal(Vert1, Vert2, Vert3);
 
 		if (Padding > 0)
 		{
@@ -183,8 +192,8 @@ void AddNormalsToArray(float*& Vertices, unsigned int VertCount, unsigned int Ve
 }
 
 
-//Different loading types
-int LoadMYOBJFile(LoadedModel& CurrentModel, std::string ModelName, std::string FileType)
+//Loads a MYOBJ file
+int loadMYOBJFile(LoadedModel& CurrentModel, std::string ModelName, std::string FileType)
 {
 	unsigned int VertPadding = 0;
 
@@ -221,10 +230,10 @@ int LoadMYOBJFile(LoadedModel& CurrentModel, std::string ModelName, std::string 
 		if ((FileString[Char] == ' ' && FileString[Char - 1] != ' ') || (FileString[Char] == '\r' && FileString[Char + 1] == '\n' && FileString[Char - 1] != '\n') || (FileString[Char] == '\n' && FileString[Char - 1] != '\n'))
 		{
 			if (VertCount == 0)
-				VertCount = ParseUnsignedInterger(NumString) * 9;
+				VertCount = parseUnsignedInterger(NumString) * VERTLENGTH;
 			else
 			{
-				IndiceCount = ParseUnsignedInterger(NumString) * 3;
+				IndiceCount = parseUnsignedInterger(NumString);
 				StartingPoint = Char + 1;
 				break;
 			}
@@ -234,7 +243,7 @@ int LoadMYOBJFile(LoadedModel& CurrentModel, std::string ModelName, std::string 
 			NumString += FileString[Char];
 	}
 
-	VertCount += (VertCount / 9) * VertPadding;
+	VertCount += (VertCount / VERTLENGTH) * VertPadding;
 
 	NumString.clear();
 
@@ -254,12 +263,12 @@ int LoadMYOBJFile(LoadedModel& CurrentModel, std::string ModelName, std::string 
 		{
 			if (VerticesLoaded >= VertCount && IndicesLoaded < IndiceCount)
 			{
-				Indices[IndicesLoaded] = ParseUnsignedInterger(NumString);
+				Indices[IndicesLoaded] = parseUnsignedInterger(NumString);
 				IndicesLoaded++;
 				NumString.clear();
 				continue;
 			}
-			Vertices[VerticesLoaded] = ParseDouble(NumString);
+			Vertices[VerticesLoaded] = parseDouble(NumString);
 			VerticesLoaded++;
 			CountInVert++;
 			if (CountInVert >= 9)
@@ -277,13 +286,7 @@ int LoadMYOBJFile(LoadedModel& CurrentModel, std::string ModelName, std::string 
 		if (FileString[Char] != ' ' && FileString[Char] != '\n' && FileString[Char] != '\r')
 			NumString += FileString[Char];
 	}
-	Indices[IndicesLoaded] = ParseUnsignedInterger(NumString);
-
-	//Return here for element-based drawing
-
-	//ElementToArrayDrawing(Vertices, Indices, IndiceCount, 9 + VertPadding);
-	//VertCount = IndiceCount * (9 + VertPadding);
-	//AddNormalsToArray(Vertices, VertCount, 9, VertPadding);
+	Indices[IndicesLoaded] = parseUnsignedInterger(NumString);
 
 	CurrentModel.Vertices = Vertices;
 	CurrentModel.Indices = Indices;
@@ -294,10 +297,11 @@ int LoadMYOBJFile(LoadedModel& CurrentModel, std::string ModelName, std::string 
 	return 0;
 }
 
-int LoadModelIntoBuffer(Model& CurrentModel, std::string ModelName, std::string FileType)
+//Loads an object from file into data
+int loadModelIntoBuffer(Model& CurrentModel, std::string ModelName, std::string FileType)
 {
 	if (CurrentModel.VertCount > 0)
-		CurrentModel.DeleteModel();
+		CurrentModel.deleteModel();
 	if (ObjsLoaded.contains(ModelName))
 		return 0;
 
@@ -308,25 +312,27 @@ int LoadModelIntoBuffer(Model& CurrentModel, std::string ModelName, std::string 
 	if (!std::filesystem::is_regular_file("./Objects/" + ModelName + "." + FileType))
 		return 0;
 
-	unsigned int FreeModelSlot = GetFreeModelSlot();
+	unsigned int FreeModelSlot = getFreeModelSlot();
 
-	switch (EvaluateString(FileType))
+	switch (evaluateString(FileType))
 	{
 	case StringEnum::MYOBJ:
-		LoadMYOBJFile(ModelsLoaded[FreeModelSlot], ModelName, FileType);
+		loadMYOBJFile(ModelsLoaded[FreeModelSlot], ModelName, FileType);
 		break;
 	case StringEnum::Invalid:
 		break;
 	default:
 		break;
 	}
-	LoadModelCopy(CurrentModel, FreeModelSlot);
+	loadModelCopy(CurrentModel, FreeModelSlot);
 	ObjsLoaded.insert({ ModelName, FreeModelSlot });
 	ModelLoadedCount++;
 	return 0;
 }
 
-void UnloadModelFromBuffer(unsigned int ID)
+//Unloads a loaded model from the buffer
+//models created through 'loadModelCopy' must be deleted manually
+void unloadModelFromBuffer(unsigned int ID)
 {
 	delete[](ModelsLoaded[ID].Vertices);
 	ModelsLoaded[ID].Vertices = nullptr;
@@ -338,19 +344,22 @@ void UnloadModelFromBuffer(unsigned int ID)
 	ObjsLoaded.erase(ModelsLoaded[ID].Name);
 }
 
-void LoadModel(Model& CurrentModel, std::string ModelName, std::string FileType)
+//Loads a model
+//Will load into loaded models if it doesn't exist
+//If it does exist then will copy from the loaded model
+void loadModel(Model& CurrentModel, std::string ModelName, std::string FileType)
 {
 	if (CurrentModel.VertCount > 0)
-		CurrentModel.DeleteModel();
+		CurrentModel.deleteModel();
 	if (!ObjsLoaded.contains(ModelName))
-		LoadModelIntoBuffer(CurrentModel, ModelName, FileType);
+		loadModelIntoBuffer(CurrentModel, ModelName, FileType);
 	else
-		LoadModelCopy(CurrentModel, ObjsLoaded[ModelName]);
+		loadModelCopy(CurrentModel, ObjsLoaded[ModelName]);
 }
 
 namespace ModelLoading
 {
-	void DeleteHeap()
+	void deleteHeap()
 	{
 		for (int i = 0; i < MAXMODELCOUNT; i++)
 		{

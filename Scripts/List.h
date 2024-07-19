@@ -1,6 +1,7 @@
 #pragma once
-#ifndef LIST
-#define LIST
+
+//decrepted script
+//Mostly meant for custom lists that need weird functions
 
 template <class type>
 struct List
@@ -16,9 +17,9 @@ struct List
 	}
 	~List()
 	{
-		Delete();
+		deleteList();
 	}
-	type* operator [] (int Index)
+	type* operator [] (unsigned int Index)
 	{
 		if (Index >= Length || Index < 0)
 		{
@@ -26,7 +27,9 @@ struct List
 		}
 		return &list[Index];
 	}
-	type AddToList(type Thing)
+
+	//Adds object of 'type' to list
+	type addToList(type Thing)
 	{
 		if (Length < Allocated)
 		{
@@ -45,7 +48,7 @@ struct List
 			Temp = new type[1];
 			Allocated = 1;
 		}
-		for (int i = 0; i < Length; i++)
+		for (unsigned int i = 0; i < Length; i++)
 		{
 			Temp[i] = list[i];
 		}
@@ -57,14 +60,9 @@ struct List
 		Temp = nullptr;
 		return Thing;
 	}
-	void DeleteListObj()
-	{
-		delete[](list);
-		list = nullptr;
-		Length = 0;
-		Allocated = 0;
-	}
-	bool Contains(const type& Thing)
+
+	//returns true if list containts 'Thing'
+	bool contains(const type& Thing)
 	{
 		for (int i = 0; i < Length; i++)
 		{
@@ -73,7 +71,9 @@ struct List
 		}
 		return false;
 	}
-	bool Contains(const type& Thing, unsigned int& Pos)
+
+	//returns true if list contains 'Thing' and sets 'Pos' to the index it is at
+	bool contains(const type& Thing, unsigned int& Pos)
 	{
 		for (int i = 0; i < Length; i++)
 		{
@@ -85,7 +85,9 @@ struct List
 		}
 		return false;
 	}
-	void RemoveFromList(int Index)
+
+	//Removes object from list at 'Index'
+	void removeFromList(unsigned int Index)
 	{
 		if (Index >= Length || Index < 0)
 		{
@@ -93,7 +95,7 @@ struct List
 		}
 		type* Temp = new type[Allocated];
 		int Obj = 0;
-		for (int i = 0; i < Length; i++)
+		for (unsigned int i = 0; i < Length; i++)
 		{
 			if (i == Index)
 				continue;
@@ -104,11 +106,15 @@ struct List
 		list = Temp;
 		Length--;
 	}
-	void RemoveObjFromList(type& Thing)
+
+	//Removes object from list if 'Thing' is in list
+	void removeObjFromList(type& Thing)
 	{
 		RemoveFromList(GetIndex(Thing));
 	}
-	void Delete()
+
+	//Deletes the lists internal buffer
+	void deleteList()
 	{
 		if (list == nullptr)
 			return;
@@ -117,7 +123,9 @@ struct List
 		Length = 0;
 		Allocated = 0;
 	}
-	type* ListPtr()
+
+	//Returns a pointer to the lists internal buffer
+	type* listPtr()
 	{
 		type* Ret = new type[Length];
 
@@ -128,7 +136,9 @@ struct List
 
 		return Ret;
 	}
-	int GetIndex(type& Obj)
+
+	//Returns the index of an object in the list if it exists
+	int getIndex(type& Obj)
 	{
 		for (int i = 0; i < Length; i++)
 		{
@@ -137,13 +147,13 @@ struct List
 		}
 		return -1;
 	}
-	void NewList(int Count)
+
+	//Deletes the current list and starts a new one
+	void newList(int Count)
 	{
-		Delete();
+		deleteList();
 		list = new type[Count];
 		Allocated = Count;
 		Length = 0;
 	}
 };
-
-#endif

@@ -1,36 +1,11 @@
 #pragma once
-#ifndef CLASSES
-#define CLASSES
+
 #include "ModelLoading.h"
-#include <iostream>
-#include "ApplicationMain.h"
 #include "List.h"
 #include "Vector.h"
+#include "MathFunctions.h"
 #include "Constants.h"
 #include "GlStuff.h"
-
-struct Edge
-{
-	int Vert1 = -1;
-	int Vert2 = -1;
-
-	Edge(int Val) : Vert1(Val), Vert2(Val){}
-	Edge(int x, int y) : Vert1(x), Vert2(y){}
-	Edge() : Vert1(0), Vert2(0) {}
-
-	bool operator == (Edge& Obj)
-	{
-		if ((Obj.Vert1 == Vert1 && Obj.Vert2 == Vert2) || (Obj.Vert1 == Vert2 && Obj.Vert2 == Vert1))
-			return true;
-		return false;
-	}
-	bool operator != (Edge& Obj)
-	{
-		if ((Obj.Vert1 == Vert1 && Obj.Vert2 == Vert2) || (Obj.Vert1 == Vert2 && Obj.Vert2 == Vert1))
-			return false;
-		return true;
-	}
-};
 
 struct transform
 {
@@ -43,12 +18,139 @@ struct transform
 	glm::mat4 make_glm()
 	{
 		glm::mat4 ret = glm::mat4(1);
-		ret = glm::translate(ret, Position.make_glmVec3());
+		ret = glm::translate(ret, Position.makeGlmVec3());
 		ret = glm::rotate(ret, glm::radians<float>(Rotation.x), glm::vec3(1,0,0));
 		ret = glm::rotate(ret, glm::radians<float>(Rotation.y), glm::vec3(0,1,0));
 		ret = glm::rotate(ret, glm::radians<float>(Rotation.z), glm::vec3(0,0,1));
-		ret = glm::scale(ret, Scale.make_glmVec3());
+		ret = glm::scale(ret, Scale.makeGlmVec3());
 		return ret;
+	}
+
+	void translate(Vector3 Vec)
+	{
+		if (this == nullptr)
+			return;
+		Position += Vec;
+	}
+	void translate(float x, float y, float z)
+	{
+		Position.x += x;
+		Position.y += y;
+		Position.z += z;
+	}
+	void translate(float x, float y)
+	{
+		Position.x += x;
+		Position.y += y;
+	}
+
+	void setPosition(Vector3 Vec)
+	{
+		Position = Vec;
+	}
+
+	void setPosition(Vector2 Vec)
+	{
+		Position = Vector3(Vec.x, Vec.y, 0);
+	}
+
+	void setPosition(float x, float y, float z)
+	{
+		Position.x = x;
+		Position.y = y;
+		Position.z = z;
+	}
+
+	void setPosition(float x, float y)
+	{
+		Position.x = x;
+		Position.y = y;
+		Position.z = 0;
+	}
+
+	void rotate(Vector3 Vec)
+	{
+		Rotation.x += Vec.x;
+		Rotation.y += Vec.y;
+		Rotation.z += Vec.z;
+	}
+
+	void rotate(float x, float y, float z)
+	{
+		Rotation.x += x;
+		Rotation.y += y;
+		Rotation.z += z;
+	}
+
+	void changeScale(Vector3 Vec)
+	{
+		Scale.x *= Vec.x;
+		Scale.y *= Vec.y;
+		Scale.z *= Vec.z;
+	}
+
+	void changeScale(float x, float y, float z)
+	{
+		Scale.x *= x;
+		Scale.y *= y;
+		Scale.z *= z;
+	}
+
+	void changeScale(float Val)
+	{
+		Scale.x *= Val;
+		Scale.y *= Val;
+		Scale.z *= Val;
+	}
+
+	void setScale(float Val)
+	{
+		Scale.x = Val;
+		Scale.y = Val;
+		Scale.z = Val;
+	}
+
+	void setScale(Vector2 Val)
+	{
+		Scale.x = Val.x;
+		Scale.y = Val.y;
+		Scale.z = 1;
+	}
+
+	void setScale(Vector3 Val)
+	{
+		Scale.x = Val.x;
+		Scale.y = Val.y;
+		Scale.z = Val.z;
+	}
+
+	void setScale(float x, float y, float z)
+	{
+		Scale.x = x;
+		Scale.y = y;
+		Scale.z = z;
+	}
+
+	void setScale(float x, float y)
+	{
+		Scale.x = x;
+		Scale.y = y;
+		Scale.z = 1;
+	}
+
+	Vector3 getPosition()
+	{
+		return Position;
+	}
+
+	Vector3 getRotation()
+	{
+		return Rotation;
+	}
+
+	Vector3 getScale()
+	{
+		return Scale;
 	}
 };
 
@@ -59,97 +161,9 @@ struct scriptObj
 	bool Active = true;
 };
 
-struct ObjP
-{
-	void Translate(Vector3 Vec)
-	{
-		if (this == nullptr)
-			return;
-		T.Position += Vec;
-	}
-	void Translate(float x, float y, float z)
-	{
-		T.Position.x += x;
-		T.Position.y += y;
-		T.Position.z += z;
-	}
-
-	void SetPosition(Vector3 Vec)
-	{
-		T.Position = Vec;
-	}
-	void SetPosition(Vector2 Vec)
-	{
-		T.Position = Vector3(Vec.x, Vec.y, 0);
-	}
-	void SetPosition(float x, float y, float z)
-	{
-		T.Position.x = x;
-		T.Position.y = y;
-		T.Position.z = z;
-	}
-
-	void Rotate(Vector3 Vec)
-	{
-		T.Rotation.x += Vec.x;
-		T.Rotation.y += Vec.y;
-		T.Rotation.z += Vec.z;
-	}
-	void Rotate(float x, float y, float z)
-	{
-		T.Rotation.x += x;
-		T.Rotation.y += y;
-		T.Rotation.z += z;
-	}
-	void Scale(Vector3 Vec)
-	{
-		T.Scale.x *= Vec.x;
-		T.Scale.y *= Vec.y;
-		T.Scale.z *= Vec.z;
-	}
-	void Scale(float x, float y, float z)
-	{
-		T.Scale.x *= x;
-		T.Scale.y *= y;
-		T.Scale.z *= z;
-	}
-	void Scale(float Scale)
-	{
-		T.Scale.x *= Scale;
-		T.Scale.y *= Scale;
-		T.Scale.z *= Scale;
-	}
-	void SetScale(float Scale)
-	{
-		T.Scale.x = Scale;
-		T.Scale.y = Scale;
-		T.Scale.z = Scale;
-	}
-	void SetScale(Vector2 Scale)
-	{
-		T.Scale.x = Scale.x;
-		T.Scale.y = Scale.y;
-		T.Scale.z = 1;
-	}
-	Vector3 Position()
-	{
-		return T.Position;
-	}
-	Vector3 Rotation()
-	{
-		return T.Rotation;
-	}
-	Vector3 Scale()
-	{
-		return T.Scale;
-	}
-
-	transform T;
-};
-
 struct Mesh
 {
-	Vector3 Color = Vector3(1);
+	Vector4 Color = Vector4(1);
 	float* Vertices = nullptr;
 	unsigned int* Indices = nullptr;
 	unsigned int VBO = 0, EBO = 0, VAO = 0;
@@ -166,25 +180,27 @@ struct Mesh
 
 struct Object
 {
-	ObjP Transform;
+	transform Transform;
 	List<scriptObj>Scripts = 0;
 
 	std::string ObjName;
 	Mesh mesh;
 	List<Object*> Children = 0;
+	List<Object*> Dependents = 0;
 	Object* Parent = nullptr;
+	Object* Dependency = nullptr;
 	int ChildIndex = -1;
+	int DependentIndex = -1;
 	bool BranchHead = true;
 
 	transform RelativeTransform;
 
-
 	Object(Model &ActiveModel)
 	{
-		void SetToTransform(Object*);
-		SetToTransform(this);
-		mesh.Vertices = ActiveModel.GetVertices();
-		mesh.Indices = ActiveModel.GetIndices();
+		void addObjToList(Object*);
+		addObjToList(this);
+		mesh.Vertices = ActiveModel.getVertices();
+		mesh.Indices = ActiveModel.getIndices();
 		mesh.VertCount = ActiveModel.VertCount;
 		mesh.IndiceCount = ActiveModel.IndiceCount;
 		ObjName = ActiveModel.Name;
@@ -210,82 +226,119 @@ struct Object
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(2, 4, GL_FLOAT, GL_FALSE, 9 * (sizeof(float)), (void*)(5 * sizeof(float)));
 		glEnableVertexAttribArray(2);
+
+		glBindVertexArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
 	Object(int) : ObjName("None") { void SetToTransform(Object*); SetToTransform(this); }
 	Object() : ObjName("None") {}
 	~Object()
 	{
-		Children.Delete();
+		Children.deleteList();
+		Dependents.deleteList();
 	}
 
-	void AddScript(void* Scr)
+	//Adds a script to the object
+	void addScript(void* Scr)
 	{
 		scriptObj tmp;
 		tmp.Script = Scr;
-		Scripts.AddToList(tmp);
+		Scripts.addToList(tmp);
 	}
 	
-	void SetParent(Object*&Obj)
+	//Sets the object's parent
+	void setParent(Object*&Obj)
 	{
 		if (Obj == nullptr)
 			return;
 		if (Parent != nullptr)
-			Parent->Children.RemoveFromList(ChildIndex);
-		Obj->Children.AddToList(this);
+			Parent->Children.removeFromList(ChildIndex);
+		Obj->Children.addToList(this);
 		ChildIndex = Obj->Children.Length - 1;
 		Parent = Obj;
-		SetRelativePosition();
+		setRelativeTransform();
 		BranchHead = false;
 	}
-	void SetHeadOfBranch()
+
+	//Removes an object's parent if it has one
+	void removeParent()
 	{
 		if (BranchHead)
 			return;
 		if (Parent == nullptr)
 			return;
-		Parent->Children.RemoveFromList(ChildIndex);
+		Parent->Children.removeFromList(ChildIndex);
 		Parent = nullptr;
 		ChildIndex = -1;
 		BranchHead = true;
-		SetRelativePosition();
+		setRelativeTransform();
 	}
-	void SetRelativePosition()
+
+	//Sets an objects relative transform to parent
+	void setRelativeTransform()
 	{
 		if (Parent == nullptr)
 		{
 			RelativeTransform = transform();
 			return;
 		}
-		RelativeTransform.Position = Transform.Position() - Parent->Transform.Position();
-		RelativeTransform.Scale = Transform.Scale() / Parent->Transform.Scale();
-		RelativeTransform.Rotation = Transform.Rotation() - Parent->Transform.Rotation();
+		RelativeTransform.Position = Transform.Position - Parent->Transform.Position;
+		RelativeTransform.Scale = Transform.Scale / Parent->Transform.Scale;
+		RelativeTransform.Rotation = Transform.Rotation - Parent->Transform.Rotation;
 	}
-	void SetToRelativePosition()
+
+	//Sets an object to be at the relative transform to the parent
+	void setToRelativeTransform()
 	{
 		if (Parent == nullptr)
 			return;
 		glm::mat4 Translation(1);
 		transform newTransform;
-		RelativeTransform.Position.Scale(Parent->Transform.Scale() / Transform.Scale() * RelativeTransform.Scale);
-		Translation = glm::rotate(Translation, glm::radians<float>(Parent->Transform.Rotation().x), glm::vec3(1, 0, 0));
-		Translation = glm::rotate(Translation, glm::radians<float>(Parent->Transform.Rotation().y), glm::vec3(0, 1, 0));
-		Translation = glm::rotate(Translation, glm::radians<float>(Parent->Transform.Rotation().z), glm::vec3(0, 0, 1));
-		Translation = glm::translate(Translation, (RelativeTransform.Position - Parent->Transform.Position()).make_glmVec3());
+		Translation = glm::rotate(Translation, glm::radians<float>(Parent->Transform.Rotation.x), glm::vec3(1, 0, 0));
+		Translation = glm::rotate(Translation, glm::radians<float>(Parent->Transform.Rotation.y), glm::vec3(0, 1, 0));
+		Translation = glm::rotate(Translation, glm::radians<float>(Parent->Transform.Rotation.z), glm::vec3(0, 0, 1));
+		Translation = glm::translate(Translation, (RelativeTransform.Position * RelativeTransform.Scale).makeGlmVec3());
 
-		Transform.T.Position = Translation * Parent->Transform.Position().make_glmVec4();
-		Transform.T.Position += Parent->Transform.Position();
-		Transform.T.Rotation = Parent->Transform.Rotation();
-		Transform.T.Scale = Parent->Transform.Scale() * RelativeTransform.Scale;
+		Transform.Position = Translation * Parent->Transform.Position.makeGlmVec4();
+		Transform.Rotation = Parent->Transform.Rotation;
+		Transform.Scale = Parent->Transform.Scale * RelativeTransform.Scale;
 	}
-	void UpdateChildren()
+
+	//Updates all children to go to their relative transforms
+	void updateChildren()
 	{
-		for(int i = 0; i < Children.Length; i++)
+		for(unsigned int i = 0; i < Children.Length; i++)
 		{
-			(*Children[i])->SetToRelativePosition();
-			(*Children[i])->UpdateChildren();
+			(*Children[i])->setToRelativeTransform();
+			(*Children[i])->updateChildren();
 		}
+	}
+
+	//Adds a dependent to the object
+	void addDependent(Object*& Obj)
+	{
+		Obj->DependentIndex = Dependents.Length;
+		Obj->Dependency = this;
+		Dependents.addToList(Obj);
+	}
+
+	//Sets the dependency for the object
+	void setDependency(Object*& Obj)
+	{
+		DependentIndex = Obj->Dependents.Length;
+		Dependency = Obj;
+		Obj->Dependents.addToList(this);
+	}
+
+	//Seperates an object from its dependency if it has one
+	void removeDependency()
+	{
+		if (DependentIndex == -1 || Dependency == nullptr)
+			return;
+		Dependency->Dependents.removeFromList(DependentIndex);
+		DependentIndex = -1;
+		Dependency = nullptr;
 	}
 };
 void DeleteObj(Object*&);
-
-#endif

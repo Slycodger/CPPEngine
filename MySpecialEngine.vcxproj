@@ -21,11 +21,13 @@
   <ItemGroup>
     <ClCompile Include="glad\src\glad.c" />
     <ClCompile Include="Scripts\Camera.cpp" />
+    <ClCompile Include="Scripts\Dllmain.cpp" />
+    <ClCompile Include="Scripts\ListFolder.cpp" />
     <ClCompile Include="Scripts\ModelLoading.cpp" />
-    <ClCompile Include="Scripts\AObjectDraw.cpp" />
-    <ClCompile Include="Scripts\ApplicationMain.cpp" />
-    <ClCompile Include="Scripts\DrawingPad.cpp" />
-    <ClCompile Include="Scripts\GUIText.cpp" />
+    <ClCompile Include="Scripts\AppObjHandler.cpp" />
+    <ClCompile Include="Scripts\ApplicationBase.cpp" />
+    <ClCompile Include="Scripts\TestingGround.cpp" />
+    <ClCompile Include="Scripts\TextCreation.cpp" />
     <ClCompile Include="Scripts\KeyPresses.cpp" />
     <ClCompile Include="Scripts\MathFunctions.cpp" />
   </ItemGroup>
@@ -34,6 +36,7 @@
     <Text Include="Objects\Cube.MYOBJ" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Objects\Point.MYOBJ" />
     <None Include="Objects\Square.MYOBJ" />
     <None Include="Objects\Triangle.MYOBJ" />
     <None Include="Shaders\BasicFrag.frag" />
@@ -42,6 +45,8 @@
     <None Include="Shaders\BasicVert.vert" />
     <None Include="Shaders\FractalFrag.frag" />
     <None Include="Shaders\FractalVert.vert" />
+    <None Include="Shaders\ShowNormalsFrag.frag" />
+    <None Include="Shaders\ShowNormalsVert.vert" />
     <None Include="Shaders\TextFrag.frag" />
     <None Include="Shaders\TextSetupFrag.frag" />
     <None Include="Shaders\TextSetupVert.vert" />
@@ -57,22 +62,26 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ft2build.h" />
-    <ClInclude Include="Scripts\AObjectDraw.h" />
-    <ClInclude Include="Scripts\ApplicationMain.h" />
+    <ClInclude Include="Scripts\AppObjHandler.h" />
+    <ClInclude Include="Scripts\ApplicationBase.h" />
+    <ClInclude Include="Scripts\Button.h" />
     <ClInclude Include="Scripts\Camera.h" />
     <ClInclude Include="Scripts\Constants.h" />
-    <ClInclude Include="Scripts\DrawingPad.h" />
-    <ClInclude Include="Scripts\EngineBase.h" />
+    <ClInclude Include="Scripts\DLLmain.h" />
+    <ClInclude Include="Scripts\TestingGround.h" />
+    <ClInclude Include="Scripts\ScriptBase.h" />
     <ClInclude Include="Scripts\GlobalVars.h" />
     <ClInclude Include="Scripts\GlStuff.h" />
-    <ClInclude Include="Scripts\GUIText.h" />
+    <ClInclude Include="Scripts\TextCreation.h" />
     <ClInclude Include="Scripts\IntializeShaders.h" />
     <ClInclude Include="Scripts\KeyPresses.h" />
     <ClInclude Include="Scripts\List.h" />
+    <ClInclude Include="Scripts\ListFolder.h" />
     <ClInclude Include="Scripts\MathFunctions.h" />
     <ClInclude Include="Scripts\Mouse.h" />
     <ClInclude Include="Scripts\ObjectClasses.h" />
     <ClInclude Include="Scripts\ModelLoading.h" />
+    <ClInclude Include="Scripts\pch.h" />
     <ClInclude Include="Scripts\Vector.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -133,10 +142,10 @@
     <ReferencePath>C:\Users\gabri\OneDrive\Desktop\Coding\MySpecialEngine\CPPEngine;$(ReferencePath)</ReferencePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>C:\Users\gabri\OneDrive\Desktop\EngineOutput\</OutDir>
     <IncludePath>.\FreeTypeInclude;$(IncludePath)</IncludePath>
     <ExecutablePath>$(ExecutablePath)</ExecutablePath>
     <ReferencePath>.\FreeTypeInclude\dll;$(ReferencePath)</ReferencePath>
+    <OutDir>C:\Users\gabri\OneDrive\Desktop\EngineOutput\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -170,7 +179,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;$(ProjectName)_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <AdditionalIncludeDirectories>.\glfw-3.3.8.bin.WIN64\glfw-3.3.8.bin.WIN64\include;.\glad\include;.\glm-master;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>.\glad\src;%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
@@ -194,14 +203,15 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;$(ProjectName)_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>.\glad\include;.\glfw-3.3.8.bin.WIN64\glfw-3.3.8.bin.WIN64\include;.\glm-master;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalUsingDirectories>.\glad\src;%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -209,11 +219,11 @@
       <AdditionalDependencies>opengl32.lib;glfw3.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)Objects $(OutDir)Objects\ /y /i /q
-xcopy $(ProjectDir)Shaders $(OutDir)Shaders\ /y /i /q
-xcopy $(ProjectDir)Fonts $(OutDir)Fonts\ /y /i /q
-xcopy $(ProjectDir)freetype.dll $(OutDir) /y /i /q</Command>
-      <Message>Copied objects and shaders</Message>
+      <Command>xcopy $(ProjectDir)Objects $(OutDir)Objects\ /y /i
+xcopy $(ProjectDir)Shaders $(OutDir)Shaders /y /i
+xcopy $(ProjectDir)Fonts $(OutDir)Fonts\ /y /i
+xcopy $(ProjectDir)freetype.dll $(OutDir) /y /i</Command>
+      <Message>Copies stuff</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -1,10 +1,5 @@
-/*
-* Constants to be used
-*/
-
 #pragma once
-#ifndef CONSTANTS
-#define CONSTANTS
+
 #include <iostream>
 
 constexpr float IDENTITYMAT[16] =
@@ -21,6 +16,5 @@ constexpr char FRAGFILE[] = ".frag";
 constexpr char GEOMFILE[] = ".geom";
 constexpr char COMPFILE[] = ".comp";
 constexpr float LIGHTEXTENDDISTANCE = 100;
-constexpr unsigned int MAXMODELCOUNT = 2;
-
-#endif
+constexpr unsigned int MAXMODELCOUNT = 5;
+extern std::string ExePath;

@@ -1,9 +1,5 @@
-/*
-* Creates shader stuff for opening and changing the current shader
-*/
+#pragma once
 
-#ifndef INTIALIZESHADERS
-#define INTIALIZESHADERS
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -16,45 +12,58 @@ struct Shader
 {	
 	unsigned int ID;
 
-	void Use(unsigned int &Shader)
+	void use(unsigned int &Shader)
 	{
 		ID = Shader;
 		glUseProgram(ID);
 	}
-	void SetInt(const char *Pos, int value)
+
+	void setInt(const char *Pos, int value)
 	{
 		glUniform1i(glGetUniformLocation(ID, Pos), value);
 	}
-	void SetFloat(const char *Pos, float value)
+
+	void setFloat(const char *Pos, float value)
 	{
 		glUniform1f(glGetUniformLocation(ID, Pos), value);
 	}
-	void SetMat4(const char *Pos, float *value)
+
+	void setMat4(const char *Pos, float *value)
 	{
 		glUniformMatrix4fv(glGetUniformLocation(ID, Pos), 1, GL_FALSE, value);
 	}
-	void SetVec4(const char* Pos, float x, float y, float z, float w)
+
+	void setVec4(const char* Pos, Vector4 Vec)
+	{
+		glUniform4f(glGetUniformLocation(ID, Pos), Vec.x, Vec.y, Vec.z, Vec.w);
+	}
+
+	void setVec4(const char* Pos, float x, float y, float z, float w)
 	{
 		glUniform4f(glGetUniformLocation(ID, Pos), x, y, z, w);
 	}
-	void SetVec3(const char *Pos, float x, float y, float z)
+
+	void setVec3(const char *Pos, float x, float y, float z)
 	{
 		glUniform3f(glGetUniformLocation(ID, Pos), x, y, z);
 	}
-	void SetVec3(const char* Pos, Vector3 Vec)
+
+	void setVec3(const char* Pos, Vector3 Vec)
 	{
 		glUniform3f(glGetUniformLocation(ID, Pos), Vec.x, Vec.y, Vec.z);
 	}
-	void SetVec2(const char* Pos, float x, float y)
+
+	void setVec2(const char* Pos, float x, float y)
 	{
 		glUniform2f(glGetUniformLocation(ID, Pos), x, y);
 	}
-	void SetVec2(const char* Pos, Vector2 Vec)
+
+	void setVec2(const char* Pos, Vector2 Vec)
 	{
 		glUniform2f(glGetUniformLocation(ID, Pos), Vec.x, Vec.y);
 	}
 
-	void CreateShader(std::map <std::string, std::string> &Shaders , unsigned int& program)
+	void createShader(std::map <std::string, std::string> &Shaders , unsigned int& program)
 	{
 		program = glCreateProgram();
 
@@ -108,6 +117,7 @@ struct Shader
 			fShaderFile.close();
 			gShaderFile.close();
 			std::cout << "Failed to open shader files\n";
+			std::cout << fail.what() << "\n";
 		}
 		int Success;
 		unsigned int VertexShader = glCreateShader(GL_VERTEX_SHADER);
@@ -163,45 +173,53 @@ struct ComputeShader
 
 	unsigned int ID;
 
-	void Use(unsigned int& Shader)
+	void use(unsigned int& Shader)
 	{
 		ID = Shader;
 		glUseProgram(ID);
 	}
-	void SetInt(const char* Pos, int value)
+
+	void setInt(const char* Pos, int value)
 	{
 		glUniform1i(glGetUniformLocation(ID, Pos), value);
 	}
-	void SetFloat(const char* Pos, float value)
+
+	void setFloat(const char* Pos, float value)
 	{
 		glUniform1f(glGetUniformLocation(ID, Pos), value);
 	}
-	void SetMat4(const char* Pos, float* value)
+
+	void setMat4(const char* Pos, float* value)
 	{
 		glUniformMatrix4fv(glGetUniformLocation(ID, Pos), 1, GL_FALSE, value);
 	}
-	void SetVec4(const char* Pos, float x, float y, float z, float w)
+
+	void setVec4(const char* Pos, float x, float y, float z, float w)
 	{
 		glUniform4f(glGetUniformLocation(ID, Pos), x, y, z, w);
 	}
-	void SetVec3(const char* Pos, float x, float y, float z)
+
+	void setVec3(const char* Pos, float x, float y, float z)
 	{
 		glUniform3f(glGetUniformLocation(ID, Pos), x, y, z);
 	}
-	void SetVec3(const char* Pos, Vector3 Vec)
+
+	void setVec3(const char* Pos, Vector3 Vec)
 	{
 		glUniform3f(glGetUniformLocation(ID, Pos), Vec.x, Vec.y, Vec.z);
 	}
-	void SetVec2(const char* Pos, float x, float y)
+
+	void setVec2(const char* Pos, float x, float y)
 	{
 		glUniform2f(glGetUniformLocation(ID, Pos), x, y);
 	}
-	void SetVec2(const char* Pos, Vector2 Vec)
+
+	void setVec2(const char* Pos, Vector2 Vec)
 	{
 		glUniform2f(glGetUniformLocation(ID, Pos), Vec.x, Vec.y);
 	}
 
-	void CreateShader(std::string ShaderPos, unsigned int& program)
+	void createShader(std::string ShaderPos, unsigned int& program)
 	{
 		program = glCreateProgram();
 
@@ -225,6 +243,7 @@ struct ComputeShader
 		{
 			ShaderFile.close();
 			std::cout << "Failed to open compute shader file\n";
+			std::cout << fail.what() << "\n";
 		}
 		int Success;
 		unsigned int Shader = glCreateShader(GL_COMPUTE_SHADER);
@@ -243,4 +262,3 @@ struct ComputeShader
 		ShaderFile.close();
 	}
 };
-#endif

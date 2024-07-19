@@ -1,6 +1,5 @@
 #pragma once
-#ifndef MOUSE
-#define MOUSE
+
 #include "Vector.h"
 
 struct MouseView
@@ -11,9 +10,8 @@ struct MouseView
 struct Mouse
 {
 	Vector2 Pos, Movement;
+	Vector2 Scrolling;
 	MouseView::Enumeration Visibility = MouseView::Shown;
 };
 
 extern Mouse ActiveMouse;
-
-#endif

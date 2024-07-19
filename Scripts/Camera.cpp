@@ -4,7 +4,7 @@
 Create a perspective matrix
 Make sure to intialize Mat to a size 16 array
 */
-void CreatePerspectiveMat(float*& Mat, float ScreenRatio, float FOVAngle, float FarClip, float NearClip)
+void createPerspectiveMat(float*& Mat, float ScreenRatio, float FOVAngle, float FarClip, float NearClip)
 {
 	float RangeRecip = 1 / (NearClip - FarClip);
 	float FOVRatio = glm::tan(0.5 * FOVAngle * DegToRad);
@@ -23,7 +23,7 @@ void CreatePerspectiveMat(float*& Mat, float ScreenRatio, float FOVAngle, float 
 Create an orthographic matrix
 Make sure to intialize Mat to a size 16 array
 */
-void CreateOrthographicMat(float*& Mat, float ScreenRatio, float RightClip, float LeftClip, float TopClip, float BottomClip, float FarClip, float NearClip)
+void createOrthographicMat(float*& Mat, float ScreenRatio, float RightClip, float LeftClip, float TopClip, float BottomClip, float FarClip, float NearClip)
 {
 	float RangeRecip = 1 / (NearClip - FarClip);
 	float temp[16] =

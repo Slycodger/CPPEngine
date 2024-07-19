@@ -1,6 +1,5 @@
-#ifndef MODELLOADING
-#define MODELLOADING
-#include <iostream>
+#pragma once
+
 #include "Constants.h"
 struct Model
 {
@@ -11,7 +10,7 @@ struct Model
 	unsigned int IndiceCount = 0;
 	std::string Name;
 
-	void DeleteModel()
+	void deleteModel()
 	{
 		delete[](Vertices);
 		Vertices = nullptr;
@@ -24,51 +23,50 @@ struct Model
 
 	~Model()
 	{
-		DeleteModel();
+		deleteModel();
 	}
 	Model() : Vertices(nullptr), Indices(nullptr), VertCount(0), IndiceCount(0) {}
 
-	float*& GetVertices()
+	float*& getVertices()
 	{
 		float* NewVerts = new float[VertCount];
-		for (int i = 0; i < VertCount; i++)
+		for (unsigned int i = 0; i < VertCount; i++)
 		{
 			NewVerts[i] = Vertices[i];
 		}
 		return NewVerts;
 	}
-	unsigned int*& GetIndices()
+	unsigned int*& getIndices()
 	{
 		unsigned int* NewIndices = new unsigned int[IndiceCount];
-		for (int i = 0; i < IndiceCount; i++)
+		for (unsigned int i = 0; i < IndiceCount; i++)
 		{
 			NewIndices[i] = Indices[i];
 		}
 		return NewIndices;
 	}
-	void ResetModel()
+	void resetModel()
 	{
-		DeleteModel();
+		deleteModel();
 		void LoadModelCopy(Model &Model, unsigned int ID);
 		LoadModelCopy(*this, ID);
 	}
 };
 
-void LoadModel(Model& CurrentModel, std::string ModelName, std::string FileType);
+void loadModel(Model& CurrentModel, std::string ModelName, std::string FileType);
 
 namespace ModelLoading
 {
-	void DeleteHeap();
+	void deleteHeap();
 }
 
-#ifdef MODELLOADINGMAIN
+#ifdef ModelLoading_MAIN
 
 #include <sstream>
 #include <fstream>
 #include <filesystem>
 #include <iomanip>
 #include <set>
-#include <cmath>
 #include "MathFunctions.h"
 #include <map>
 
@@ -81,5 +79,4 @@ struct LoadedModel
 	std::string Name;
 };
 
-#endif
 #endif
