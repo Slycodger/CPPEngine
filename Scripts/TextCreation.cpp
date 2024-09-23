@@ -205,11 +205,11 @@ void showBitmap(Shader& shader)
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(Verts), Verts);
-	shader.Use(Shading::ShaderPrograms["TextShader"]);
+	shader.use(Shading::ShaderPrograms["TextShader"]);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, BitmapTexture);
-	shader.SetInt("Texture", 0);
-	shader.SetVec3("inColor", 1, 0, 0);
+	shader.setInt("Texture", 0);
+	shader.setVec3("inColor", 1, 0, 0);
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
